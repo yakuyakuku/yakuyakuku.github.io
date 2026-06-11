@@ -74,11 +74,44 @@ def run_conversion():
     
     # Impactful Checkboxes (Row 1, Cell 1)
     cell_impact = t2.rows[1].cells[1]
-    cell_impact.text = "{integrity_checked ? '☑' : '☐'} Integrity\n{mindful_checked ? '☑' : '☐'} Mindful\n{progressive_checked ? '☑' : '☐'} Progressive\n☐ Agility\n☐ Compassion\n☐ Tenacity\n☐ Fidelity\n☐ Uplifting\n☐ Lifelong Learner."
+    cell_impact.text = ""
+    impactful_values = [
+        ("integrity_checked", "Integrity"),
+        ("mindful_checked", "Mindful"),
+        ("progressive_checked", "Progressive"),
+        ("agility_checked", "Agility"),
+        ("compassion_checked", "Compassion"),
+        ("tenacity_checked", "Tenacity"),
+        ("fidelity_checked", "Fidelity"),
+        ("uplifting_checked", "Uplifting"),
+        ("lifelong_learner_checked", "Lifelong Learner.")
+    ]
+    for i, (key, label) in enumerate(impactful_values):
+        p = cell_impact.add_paragraph() if i > 0 else cell_impact.paragraphs[0]
+        p.text = f"{{{key} ? '☑' : '☐'}} {label}"
     
     # Indikator (Row 1, Cell 2)
     cell_ind = t2.rows[1].cells[2]
-    cell_ind.text = "{FOR val IN sasaran_profil_sekolah}\n{$val.nilai}:\n{FOR ind IN $val.indikator}• {$ind}\n{END-FOR ind}\n{END-FOR val}"
+    cell_ind.text = ""
+    
+    p1 = cell_ind.paragraphs[0]
+    p1.text = "{FOR val IN sasaran_profil_sekolah}"
+    
+    p2 = cell_ind.add_paragraph()
+    r2 = p2.add_run("{$val.index}. {$val.nilai}:")
+    r2.bold = True
+    
+    p3 = cell_ind.add_paragraph()
+    p3.text = "{FOR ind IN $val.indikator}"
+    
+    p4 = cell_ind.add_paragraph()
+    p4.text = "• {$ind}"
+    
+    p5 = cell_ind.add_paragraph()
+    p5.text = "{END-FOR ind}"
+    
+    p6 = cell_ind.add_paragraph()
+    p6.text = "{END-FOR val}"
 
     # 8. Table 3 replacement (Pertemuan 1 TP)
     t3 = doc.tables[3]

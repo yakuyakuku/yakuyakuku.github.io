@@ -45,8 +45,8 @@ Provide these module-wide values at the JSON root level:
 *   **`enduring_understanding`** (string): Deep conceptual takeaways that remain with students (Pemahaman Bermakna).
 *   **`lintas_disiplin_ilmu`** (string): Contextual connections to sciences (physics), computing/engineering, and economics.
 *   **`tanggal_generasi`** (string, optional): Compilation date in `"dd MMM yyyy"` format (e.g., `"28 Aug 2025"`). If omitted or empty, the compiler will automatically use the current generation date.
-*   **`integrity_checked`**, **`mindful_checked`**, **`progressive_checked`** (boolean): True/false flags indicating which school values are checked.
-*   **`sasaran_profil_sekolah`** (array of objects): Detailed indicators list for the active school values. Each object must have a `nilai` string and an `indikator` array of strings.
+*   **`integrity_checked`**, **`mindful_checked`**, **`progressive_checked`**, **`agility_checked`**, **`compassion_checked`**, **`tenacity_checked`**, **`fidelity_checked`**, **`uplifting_checked`**, **`lifelong_learner_checked`** (boolean): True/false flags indicating which school values are checked. The AI can check any combination of these (setting them to `true` or `false`) based on the lesson's target values.
+*   **`sasaran_profil_sekolah`** (array of objects): Detailed indicators list for the active school values. Each object must have a `nilai` string and an `indikator` array of strings. Only include the active (checked) values here.
 
 ---
 
@@ -96,6 +96,12 @@ Follow this exact structural layout for your JSON response:
   "integrity_checked": true,
   "mindful_checked": true,
   "progressive_checked": true,
+  "agility_checked": false,
+  "compassion_checked": false,
+  "tenacity_checked": false,
+  "fidelity_checked": false,
+  "uplifting_checked": false,
+  "lifelong_learner_checked": false,
   "sasaran_profil_sekolah": [
     {
       "nilai": "Integrity",

@@ -43,6 +43,23 @@ async function main() {
             data.tanggal_generasi = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
         }
 
+        // Initialize all 9 school profile checkboxes
+        const schoolValues = ['integrity', 'mindful', 'progressive', 'agility', 'compassion', 'tenacity', 'fidelity', 'uplifting', 'lifelong_learner'];
+        schoolValues.forEach(val => {
+            const key = `${val}_checked`;
+            if (data[key] === undefined) {
+                data[key] = false;
+            }
+        });
+
+        // Inject 1-based sequential indices for formatting
+        if (Array.isArray(data.sasaran_profil_sekolah)) {
+            data.sasaran_profil_sekolah = data.sasaran_profil_sekolah.map((item, idx) => ({
+                ...item,
+                index: idx + 1
+            }));
+        }
+
         console.log('Rendering document...');
         const buffer = await createReport({
             template,

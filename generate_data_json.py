@@ -19,6 +19,12 @@ data = {
   "integrity_checked": True,
   "mindful_checked": True,
   "progressive_checked": True,
+  "agility_checked": False,
+  "compassion_checked": False,
+  "tenacity_checked": False,
+  "fidelity_checked": False,
+  "uplifting_checked": False,
+  "lifelong_learner_checked": False,
   "sasaran_profil_sekolah": [
     {
       "nilai": "Integrity",

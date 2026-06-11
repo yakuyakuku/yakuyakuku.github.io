@@ -17,6 +17,12 @@
   "integrity_checked": true,
   "mindful_checked": true,
   "progressive_checked": true,
+  "agility_checked": false,
+  "compassion_checked": false,
+  "tenacity_checked": false,
+  "fidelity_checked": false,
+  "uplifting_checked": false,
+  "lifelong_learner_checked": false,
   "sasaran_profil_sekolah": [
     {
       "nilai": "Integrity",
