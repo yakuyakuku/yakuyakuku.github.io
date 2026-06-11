@@ -33,6 +33,10 @@ Translate all algebraic expressions and equations into the following formats:
 Write standard English academic jargon using formal English spelling. Do not wrap them in markdown italics, quotes, or custom brackets. The downstream compiler will automatically detect and italicize them.
 *   *Examples*: `expanding brackets`, `collecting like terms`, `scaffolding`, `exit ticket`, `pre-test`, `integrity`, `differentiation`.
 
+### C. Bold Academic Concepts
+Write specific academic discipline concepts using their exact formal spelling below. Do not wrap them in markdown bold asterisks (`**`). The downstream compiler will automatically detect and format them in bold.
+*   *Target Concepts*: `Sains (Fisika)`, `Teknologi Informasi dan Rekayasa`, `Ekonomi`.
+
 ---
 
 ## 3. Global Metadata Fields
