@@ -27,12 +27,14 @@ def run_conversion():
     for node in nodes_to_delete:
         body.remove(node)
 
-    # 3. Add the outer loop opening tag before Pertemuan 1
+    # 3. Add the outer loop opening tag before Pertemuan 1 and make it bold
     for p in doc.paragraphs:
         if p.text.strip().startswith("Pertemuan 1"):
             p.insert_paragraph_before("{FOR p IN pertemuan_list}")
-            # Modify meeting header text
-            p.text = "Pertemuan {$p.pertemuan_number} – {$p.model_pembelajaran}"
+            # Clear text and add bold run
+            p.text = ""
+            r = p.add_run("Pertemuan {$p.pertemuan_number} – {$p.model_pembelajaran}")
+            r.bold = True
             break
 
     # 4. Add the outer loop closing tag before Pontianak and replace with dynamic date variable
@@ -206,6 +208,27 @@ def run_conversion():
             body.remove(element)
         # Add a page break to create an empty page below LAMPIRAN
         doc.add_page_break()
+
+    # 12. Delete empty spacing paragraphs inside the meeting loop to keep the layout tight
+    loop_start_el = None
+    loop_end_el = None
+    for child in list(body):
+        if child.tag.split('}')[-1] == 'p':
+            p = docx.text.paragraph.Paragraph(child, doc)
+            if p.text.strip() == "{FOR p IN pertemuan_list}":
+                loop_start_el = child
+            elif p.text.strip() == "{END-FOR p}":
+                loop_end_el = child
+                
+    if loop_start_el is not None and loop_end_el is not None:
+        siblings = list(body)
+        idx_start = siblings.index(loop_start_el)
+        idx_end = siblings.index(loop_end_el)
+        for element in siblings[idx_start + 1 : idx_end]:
+            if element.tag.split('}')[-1] == 'p':
+                p = docx.text.paragraph.Paragraph(element, doc)
+                if p.text.strip() == "":
+                    body.remove(element)
 
     doc.save('template.docx')
     print("Successfully generated template.docx from Test.docx with comprehensive dynamic placeholders!")

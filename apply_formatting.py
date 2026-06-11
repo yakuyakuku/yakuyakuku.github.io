@@ -100,21 +100,28 @@ class MathParser:
         t = s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         return f"<m:r><m:t>{t}</m:t></m:r>"
 
-def format_text_in_paragraph(paragraph, english_regex, math_regex):
+def format_text_in_paragraph(paragraph, english_regex, math_regex, bold_regex):
     text = paragraph.text
     if not text.strip():
         return
         
     matches = []
     
-    # 1. Match English terms
-    for match in re.finditer(english_regex, text, re.IGNORECASE):
-        matches.append((match.start(), match.end(), 'english'))
+    # 1. Match Bold concepts
+    for match in re.finditer(bold_regex, text):
+        matches.append((match.start(), match.end(), 'bold'))
         
-    # 2. Match Math expressions
+    # 2. Match English terms
+    for match in re.finditer(english_regex, text, re.IGNORECASE):
+        start, end = match.start(), match.end()
+        # Prevent overlapping with bold concepts
+        if not any(m[0] <= start < m[1] or m[0] < end <= m[1] for m in matches):
+            matches.append((start, end, 'english'))
+        
+    # 3. Match Math expressions
     for match in re.finditer(math_regex, text):
         start, end = match.start(), match.end()
-        # Prevent overlapping with English terms
+        # Prevent overlapping with existing matches
         if not any(m[0] <= start < m[1] or m[0] < end <= m[1] for m in matches):
             matches.append((start, end, 'math'))
             
@@ -142,7 +149,10 @@ def format_text_in_paragraph(paragraph, english_regex, math_regex):
             paragraph.add_run(text[last_idx:start])
             
         match_text = text[start:end]
-        if match_type == 'english':
+        if match_type == 'bold':
+            run = paragraph.add_run(match_text)
+            run.bold = True
+        elif match_type == 'english':
             # English term styled as italic
             run = paragraph.add_run(match_text)
             run.italic = True
@@ -189,6 +199,14 @@ def main():
         r"discovery learning", r"inquiry learning", r"problem based learning"
     ]
     english_regex = r"\b(?:" + "|".join(english_terms) + r")\b"
+
+    # Bold concepts (case-sensitive or insensitive as required)
+    bold_concepts = [
+        r"Sains \(Fisika\)",
+        r"Teknologi Informasi dan Rekayasa",
+        r"Ekonomi"
+    ]
+    bold_regex = r"\b(?:" + "|".join(bold_concepts) + r")\b"
     
     # Math expressions: strict, non-greedy patterns. 
     # NOTE: Patterns ending in closing parenthesis ')' must NOT end in '\b' because ')' is a non-word character.
@@ -225,14 +243,14 @@ def main():
     
     # Process all paragraphs
     for para in doc.paragraphs:
-        format_text_in_paragraph(para, english_regex, math_regex)
+        format_text_in_paragraph(para, english_regex, math_regex, bold_regex)
         
     # Process all tables (cells and cell paragraphs)
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 for para in cell.paragraphs:
-                    format_text_in_paragraph(para, english_regex, math_regex)
+                    format_text_in_paragraph(para, english_regex, math_regex, bold_regex)
                     
     doc.save(file_path)
     print("Formatting applied successfully!")

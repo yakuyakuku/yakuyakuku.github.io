@@ -489,6 +489,13 @@
         ];
         const englishRegex = new RegExp("\\b(?:" + englishTerms.join("|") + ")\\b", "gi");
 
+        const boldConcepts = [
+            "Sains \\(Fisika\\)",
+            "Teknologi Informasi dan Rekayasa",
+            "Ekonomi"
+        ];
+        const boldRegex = new RegExp("\\b(?:" + boldConcepts.join("|") + ")\\b", "g");
+
         const mathPatterns = [
             "\\b\\d+\\([x-z]\\+\\d+\\)\\s*-\\s*\\([x-z]-\\d+\\)",
             "\\b[x-z]\\^2\\s*\\+\\s*[a-z]*[x-z]\\s*\\+\\s*[a-z]\\b",
@@ -633,12 +640,22 @@
             if (!text.trim()) return;
 
             const matches = [];
+            boldRegex.lastIndex = 0;
             englishRegex.lastIndex = 0;
             mathRegex.lastIndex = 0;
 
             let m;
+            while ((m = boldRegex.exec(text)) !== null) {
+                matches.push({ start: m.index, end: boldRegex.lastIndex, type: 'bold', text: m[0] });
+            }
+
             while ((m = englishRegex.exec(text)) !== null) {
-                matches.push({ start: m.index, end: englishRegex.lastIndex, type: 'english', text: m[0] });
+                const start = m.index;
+                const end = englishRegex.lastIndex;
+                const overlap = matches.some(em => !(end <= em.start || start >= em.end));
+                if (!overlap) {
+                    matches.push({ start, end, type: 'english', text: m[0] });
+                }
             }
 
             while ((m = mathRegex.exec(text)) !== null) {
@@ -681,7 +698,9 @@
                     appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:t xml:space="preserve">${escapeXml(normalText)}</w:t></w:r>`);
                 }
 
-                if (match.type === 'english') {
+                if (match.type === 'bold') {
+                    appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">${escapeXml(match.text)}</w:t></w:r>`);
+                } else if (match.type === 'english') {
                     appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rPr><w:i/></w:rPr><w:t xml:space="preserve">${escapeXml(match.text)}</w:t></w:r>`);
                 } else if (match.type === 'math') {
                     try {
