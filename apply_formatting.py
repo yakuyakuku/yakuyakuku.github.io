@@ -3,6 +3,8 @@ import sys
 import re
 import docx
 from docx.oxml import parse_xml
+from docx.shared import Pt
+from docx.enum.text import WD_COLOR_INDEX
 
 class MathParser:
     def parse(self, s):
@@ -251,7 +253,18 @@ def main():
             for cell in row.cells:
                 for para in cell.paragraphs:
                     format_text_in_paragraph(para, english_regex, math_regex, bold_regex)
-                    
+
+    # Format Pertemuan headings: yellow highlight, bold, underline, and add spacing before
+    for para in doc.paragraphs:
+        if re.match(r'^Pertemuan\s+\d+', para.text.strip()):
+            # Add space before the paragraph to separate from previous content
+            para.paragraph_format.space_before = Pt(18)
+            # Apply bold, yellow highlight, and underline to all runs
+            for run in para.runs:
+                run.bold = True
+                run.underline = True
+                run.font.highlight_color = WD_COLOR_INDEX.YELLOW
+
     doc.save(file_path)
     print("Formatting applied successfully!")
 
