@@ -1,4 +1,6 @@
-{
+import json
+
+data = {
   "judul_tema_subtopik": "Quadratic Functions and Equations",
   "latar_belakang_pembelajaran": [
     "Siswa biasanya duduk dalam grup 4-5 orang secara konsisten.",
@@ -14,9 +16,9 @@
   ],
   "enduring_understanding": "Persamaan dan fungsi kuadrat bukan sekadar grafik melengkung atau hitungan hafalan akar, melainkan alat matematika esensial untuk memodelkan lintasan simetris, mengoptimalkan nilai maksimum/minimum, serta fondasi transisi menuju aljabar tingkat tinggi melalui manipulasi variabel tersembunyi.",
   "lintas_disiplin_ilmu": "Analisis kuadratik memiliki keterkaitan erat dengan tiga disiplin ilmu utama. Pertama, dalam Sains (Fisika), ia sangat fundamental untuk memodelkan gerak parabola (kinematika), menghitung waktu puncak, maupun jangkauan maksimum objek. Kedua, dalam Teknologi Informasi dan Rekayasa, struktur kuadrat digunakan sebagai dasar algoritma optimasi, pengolahan citra digital grafik 3D, dan pemodelan kurva lengkung desain objek. Ketiga, ia berhubungan langsung dengan Ekonomi, terutama dalam kalkulasi maksimalisasi keuntungan perusahaan atau minimalisasi biaya produksi berdasarkan fungsi biaya kuadratik.",
-  "integrity_checked": true,
-  "mindful_checked": true,
-  "progressive_checked": true,
+  "integrity_checked": True,
+  "mindful_checked": True,
+  "progressive_checked": True,
   "sasaran_profil_sekolah": [
     {
       "nilai": "Integrity",
@@ -58,8 +60,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Mengaitkan pengetahuan awal (perkalian aljabar dan luas bidang) dengan konsep baru penyelesaian persamaan kuadrat.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -73,9 +75,9 @@
             "Mengapa kita membutuhkan metode melengkapkan kuadrat atau rumus ABC jika ada metode faktorisasi?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
-            "differentiation": null,
-            "impactful": null
+            "deep_learning": None,
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -89,9 +91,9 @@
             "Apakah ketiga metode selalu menghasilkan nilai akar-akar yang sama?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
-            "differentiation": null,
-            "impactful": null
+            "deep_learning": None,
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -105,9 +107,9 @@
             "Kesalahan apa yang paling sering terjadi saat menerapkan rumus ABC?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
-            "differentiation": null,
-            "impactful": null
+            "deep_learning": None,
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -120,9 +122,9 @@
             "Mengapa rumus kuadrat (ABC) disebut sebagai metode pamungkas/universal dalam persamaan kuadrat?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
-            "differentiation": null,
-            "impactful": null
+            "deep_learning": None,
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -136,12 +138,12 @@
             "Bagian mana yang menurutmu masih membingungkan dan butuh latihan tambahan?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Produk",
               "deskripsi": "Jawaban bisa berupa tulisan singkat atau contoh soal buatan siswa."
             },
-            "impactful": null
+            "impactful": None
           }
         }
       ],
@@ -192,7 +194,7 @@
               "type": "Proses",
               "deskripsi": "Siswa visual menggunakan diagram jam; siswa kinestetik menggunakan kartu waktu/jam mini."
             },
-            "impactful": null
+            "impactful": None
           }
         },
         {
@@ -206,12 +208,12 @@
             "Apa yang terjadi pada format PM ketika diubah ke 24-hour clock?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Proses",
               "deskripsi": "Kelompok heterogen. Siswa dengan kemampuan tinggi mengerjakan soal lintas hari; siswa lain fokus pada interval sederhana."
             },
-            "impactful": null
+            "impactful": None
           }
         },
         {
@@ -226,8 +228,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Siswa menganalisis dan memilih strategi terbaik untuk menghitung interval waktu.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -241,12 +243,12 @@
             "Bagaimana cara memverifikasi hasil perhitungan waktu?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Konten",
               "deskripsi": "Guru memberikan soal bertingkat dari mudah hingga kompleks."
             },
-            "impactful": null
+            "impactful": None
           }
         },
         {
@@ -260,8 +262,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Siswa menyusun konsep umum dari berbagai contoh kontekstual.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -275,12 +277,12 @@
             "Bagaimana konsep ini membantu kehidupan sehari-hari?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Produk",
               "deskripsi": "Siswa dapat menjelaskan jawaban secara lisan, tulisan, atau diagram waktu."
             },
-            "impactful": null
+            "impactful": None
           }
         }
       ],
@@ -326,7 +328,7 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Menghubungkan konsep estimasi dengan pengalaman sehari-hari siswa.",
-            "differentiation": null,
+            "differentiation": None,
             "impactful": "Membiasakan siswa berpikir praktis dan logis dalam situasi nyata."
           }
         },
@@ -341,12 +343,12 @@
             "Satuan apa yang paling sesuai digunakan?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Proses",
               "deskripsi": "Kelompok heterogen; siswa visual mengamati objek, siswa kinestetik mengukur langsung, siswa analitis membandingkan hasil estimasi dan pengukuran."
             },
-            "impactful": null
+            "impactful": None
           }
         },
         {
@@ -361,8 +363,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Melatih refleksi dan evaluasi terhadap proses berpikir siswa.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -376,8 +378,8 @@
             "Bagaimana cara memeriksa apakah estimasi kita realistis?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
-            "differentiation": null,
+            "deep_learning": None,
+            "differentiation": None,
             "impactful": "Mengembangkan kemampuan pengambilan keputusan cepat dalam kehidupan sehari-hari."
           }
         },
@@ -391,12 +393,12 @@
             "Kapan kita menggunakan estimasi dibanding pengukuran tepat?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Produk",
               "deskripsi": "Siswa dapat menyajikan hasil dalam bentuk tabel, presentasi singkat, atau mind map."
             },
-            "impactful": null
+            "impactful": None
           }
         },
         {
@@ -410,8 +412,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Mendorong kesadaran metakognitif dan penerapan konsep di luar kelas.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         }
       ],
@@ -458,7 +460,7 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Menghubungkan konsep matematika dengan dunia sains dan teknologi.",
-            "differentiation": null,
+            "differentiation": None,
             "impactful": "Meaningful Learning: Mengaktifkan pengetahuan awal tentang pangkat dan nilai tempat."
           }
         },
@@ -473,12 +475,12 @@
             "Apa arti pangkat positif dan negatif pada standard form?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Process",
               "deskripsi": "Kelompok heterogen. Siswa yang lebih cepat membantu teman dalam menentukan nilai pangkat yang tepat."
             },
-            "impactful": null
+            "impactful": None
           }
         },
         {
@@ -492,8 +494,8 @@
             "Kapan hasil perlu dikonversi kembali ke standard form?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
-            "differentiation": null,
+            "deep_learning": None,
+            "differentiation": None,
             "impactful": "IMPACTFUL Learning: Mengembangkan kemampuan berpikir efisien dan numerasi tingkat tinggi."
           }
         },
@@ -509,8 +511,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Menjelaskan alasan matematis di balik prosedur yang digunakan.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -524,8 +526,8 @@
           ],
           "muatan_inovatif": {
             "deep_learning": "Metacognition: Siswa merefleksikan strategi yang paling efektif untuk mereka gunakan.",
-            "differentiation": null,
-            "impactful": null
+            "differentiation": None,
+            "impactful": None
           }
         },
         {
@@ -539,12 +541,12 @@
             "Bagaimana standard form membantu pekerjaan ilmuwan?"
           ],
           "muatan_inovatif": {
-            "deep_learning": null,
+            "deep_learning": None,
             "differentiation": {
               "type": "Produk",
               "deskripsi": "Assessment for Learning: Refleksi individu untuk mengidentifikasi pemahaman dan kebutuhan belajar selanjutnya."
             },
-            "impactful": null
+            "impactful": None
           }
         }
       ],
@@ -574,3 +576,8 @@
     }
   ]
 }
+
+with open('data.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+print("Successfully generated updated data.json matching the Quadratic Functions module!")
