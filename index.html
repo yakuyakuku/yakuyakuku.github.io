@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Plan (Modul Ajar) Compiler</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- JSZip for client-side unzipping & rebuilding -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-success: #10b981;
+            --accent-danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Typography & Header */
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Layout Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.05);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a5b4fc;
+        }
+
+        p.instruction-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Steps & Download Section */
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-item {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .step-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        /* Buttons styling */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: #e0e7ff;
+        }
+
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Textarea and dropzones */
+        textarea {
+            width: 100%;
+            height: 250px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            padding: 1.25rem;
+            resize: vertical;
+            outline: none;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+        }
+
+        .flex-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-label {
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* System Logs / Output Console */
+        .console {
+            background: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #38bdf8;
+            margin-bottom: 1.5rem;
+        }
+
+        .log-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .log-error {
+            color: var(--accent-danger);
+        }
+
+        .log-success {
+            color: var(--accent-success);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lesson Plan Compiler</h1>
+            <p>Generate native Word Modul Ajar files entirely in your browser with mathematical formatting</p>
+        </header>
+
+        <!-- Step 1: AI Instructions -->
+        <div class="card">
+            <h2>Step 1: Get structured JSON from your AI Assistant</h2>
+            <p class="instruction-text">Download the instruction manual below, attach it to ChatGPT or Claude along with your topic details, and have the AI generate your structured lesson plan data.</p>
+            
+            <div class="step-grid">
+                <div class="step-item">
+                    <div>
+                        <div class="step-number">Rule Book</div>
+                        <div class="step-title">AI-Chat.md</div>
+                        <p class="step-desc">System instructions and formatting requirements for AI chatbots.</p>
+                    </div>
+                    <button class="btn btn-outline" onclick="downloadAiChatMd()">Download Instructions</button>
+                </div>
+                
+                <div class="step-item">
+                    <div>
+                        <div class="step-number">Base Template</div>
+                        <div class="step-title">Word Template</div>
+                        <p class="step-desc">The official Modul Ajar structure containing loops and formats.</p>
+                    </div>
+                    <button class="btn btn-outline" onclick="downloadTemplateDocx()">Download Default Template</button>
+                </div>
+            </div>
+            
+            <div style="background: rgba(99, 102, 241, 0.05); border: 1px dashed rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 1.25rem;">
+                <h4 style="font-weight: 600; color: #e0e7ff; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    💡 How to ask the AI Chatbot:
+                </h4>
+                <ol style="margin-left: 1.25rem; color: var(--text-muted); font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                    <li>Attach the downloaded <strong>AI-Chat.md</strong> file.</li>
+                    <li>Provide your syllabus guidelines, whiteboard photo, or text instructions.</li>
+                    <li>Ask: <em>"Buat modul ajar berdasarkan topik X sesuai dengan aturan di file AI-Chat.md"</em>.</li>
+                    <li>Copy the resulting JSON output code block.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Step 2: Paste and Compile -->
+        <div class="card">
+            <h2>Step 2: Paste JSON & Compile Word Document</h2>
+            <p class="instruction-text">Input your generated JSON data below. You can also upload a custom `.docx` template if you want to override the default layout.</p>
+            
+            <div class="flex-row">
+                <span class="input-label">Paste JSON Content:</span>
+                <div class="file-upload-wrapper">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Load JSON File</button>
+                    <input type="file" id="json-upload" accept=".json" onchange="handleJsonUpload(event)">
+                </div>
+            </div>
+            
+            <textarea id="json-input" placeholder="Paste your generated JSON here..."></textarea>
+            
+            <div class="flex-row" style="margin-bottom: 1.5rem;">
+                <span class="input-label">Custom Template (Optional):</span>
+                <div class="file-upload-wrapper">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" id="template-upload-btn">Use Custom docx</button>
+                    <input type="file" id="template-upload" accept=".docx" onchange="handleTemplateUpload(event)">
+                </div>
+            </div>
+
+            <!-- Console Log -->
+            <div class="console" id="log-console">
+                <div class="log-item">Console ready... Paste JSON and click Compile.</div>
+            </div>
+
+            <button class="btn btn-primary" id="compile-btn" onclick="compileDocument()">Generate Word Document</button>
+        </div>
+
+        <footer>
+            <p>Runs entirely offline client-side. Built with ❤️ for educators.</p>
+        </footer>
+    </div>
+
+    <!-- Client-side Logic (ES Modules) -->
+    <script type="module">
+        import { createReport } from 'https://unpkg.com/docx-templates/lib/browser.js';
+
+        // Injected assets from build script
+        const DEFAULT_TEMPLATE_B64 = "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";
+        const AI_CHAT_MD_CONTENT = "# AI Instructions: Lesson Plan JSON Generator (Modul Ajar)\n\nYou are a specialized AI assistant that generates structured Indonesian lesson plans (**Modul Ajar / Pertemuan**) in JSON format. The user will upload an image, syllabus, notes, or prompts describing the lesson, and you will compile that information into a precise JSON format that matches the system's template compiler.\n\n---\n\n## 1. Output Requirements\n\n*   **JSON-only Output**: Respond **ONLY** with a valid JSON code block. Do not include any greeting, intro, explanation, or outro.\n*   **Response Code Block**: Wrap your response in a single standard markdown code block:\n    ```json\n    { ... }\n    ```\n*   **Language**: The content (procedures, objectives, questions) must be written in formal, professional Indonesian, with math equations and English jargon styled as described below.\n\n---\n\n## 2. Formatting Rules for Text Fields\n\nTo ensure equations and styles render correctly in the final Word Document compiler, you **MUST** follow these instructions when writing the text values:\n\n### A. Math Notation\nTranslate all algebraic expressions and equations into the following formats:\n1.  **Fractions**: Use a forward slash `/` and wrap complex numerators/denominators in parentheses:\n    *   *Correct*: `2/3` or `(x+1)/(y-2)`\n2.  **Powers/Exponents**: Use the caret symbol `^`. Wrap complex exponents in parentheses:\n    *   *Correct*: `2^3` or `x^2` or `2^(4x-1)` or `8^(2/3)`\n3.  **Square Roots**: Use `sqrt(A)`. Always wrap the radicand in parentheses:\n    *   *Correct*: `sqrt(18)` or `sqrt(x)` or `3sqrt(2)`\n4.  **No complex Unicode symbols**: Never output symbols like `√`, `²`, `³`, `×`, or `〖 〗` in equations. Use normal keyboard keys (`sqrt`, `^`, `x` or `*`).\n\n### B. English Jargon Spelling\nWrite standard English academic jargon using formal English spelling. Do not wrap them in markdown italics, quotes, or custom brackets. The downstream compiler will automatically detect and italicize them.\n*   *Examples*: `expanding brackets`, `collecting like terms`, `scaffolding`, `exit ticket`, `pre-test`, `integrity`, `differentiation`.\n\n---\n\n## 3. Strict Array Sizes\n\n*   **`aktivitas_pembelajaran`**: Must contain **exactly 6 items** representing the lesson steps:\n    1.  `milestone`: `\"AWAL\"`, `tahapan_sintaks`: `\"Stimulasi dan Pernyataan Masalah\"` (or equivalent introduction syntax)\n    2.  `milestone`: `\"INTI\"`, `tahapan_sintaks`: `\"Pengumpulan Data (Data Collection)\"`\n    3.  `milestone`: `\"INTI\"`, `tahapan_sintaks`: `\"Pengolahan Data (Data Processing)\"`\n    4.  `milestone`: `\"INTI\"`, `tahapan_sintaks`: `\"Pembuktian (Verification)\"`\n    5.  `milestone`: `\"AKHIR\"`, `tahapan_sintaks`: `\"Menarik Kesimpulan\"`\n    6.  `milestone`: `\"AKHIR\"`, `tahapan_sintaks`: `\"Refleksi\"`\n*   **`asesmen`**: Must contain **exactly 4 items** with the following `jenis` keys in this order:\n    1.  `\"Diagnostik\"`\n    2.  `\"Afektif\"`\n    3.  `\"Formatif (Proses)\"`\n    4.  `\"Formatif (Refleksi)\"`\n\n---\n\n## 4. JSON Schema Template (Do Not Copy Content)\n\n> [!WARNING]\n> The JSON template below is purely a **structural example**. You must **NOT** output the exact algebra content below. Instead, generate fresh, customized content matching the user's specific topics, notes, or images while retaining this exact JSON keys and array sizes.\n\nFollow this exact structural layout for your JSON response:\n\n\n```json\n{\n  \"pertemuan_list\": [\n    {\n      \"pertemuan_number\": 1,\n      \"model_pembelajaran\": \"Discovery Learning\",\n      \"tujuan_pembelajaran\": [\n        \"1. Melakukan manipulasi aljabar dasar termasuk menjabarkan tanda kurung (expanding brackets), menyederhanakan suku sejenis (collecting like terms), dan memfaktorkan bentuk aljabar sederhana.\"\n      ],\n      \"aktivitas_pembelajaran\": [\n        {\n          \"waktu_menit\": 15,\n          \"milestone\": \"AWAL\",\n          \"tahapan_sintaks\": \"Stimulasi dan Pernyataan Masalah\",\n          \"prosedur_guru\": \"Guru memberikan ekspresi aljabar seperti 2(x+3) - (x-4) di papan tulis...\",\n          \"prosedur_siswa\": \"Siswa mencoba menyederhanakan ekspresi aljabar tersebut...\",\n          \"pertanyaan_kunci\": [\n            \"Mengapa tanda negatif di depan kurung mengubah semua tanda di dalam kurung?\"\n          ],\n          \"muatan_inovatif\": {\n            \"deep_learning\": \"Mengaitkan konsep distributif dengan aritmetika dasar.\",\n            \"impactful\": null,\n            \"differentiation\": null\n          }\n        },\n        {\n          \"waktu_menit\": 25,\n          \"milestone\": \"INTI\",\n          \"tahapan_sintaks\": \"Pengumpulan Data (Data Collection)\",\n          \"prosedur_guru\": \"Guru menjelaskan teori perkalian binomial...\",\n          \"prosedur_siswa\": \"Siswa mencatat formula dasar ekspansi...\",\n          \"pertanyaan_kunci\": [\n            \"Kapan sebuah bentuk aljabar dikatakan terfaktorkan secara sempurna?\"\n          ],\n          \"muatan_inovatif\": {\n            \"deep_learning\": null,\n            \"impactful\": null,\n            \"differentiation\": {\n              \"type\": \"Proses\",\n              \"deskripsi\": \"Penyediaan visualisasi luas area persegi panjang.\"\n            }\n          }\n        },\n        {\n          \"waktu_menit\": 20,\n          \"milestone\": \"INTI\",\n          \"tahapan_sintaks\": \"Pengolahan Data (Data Processing)\",\n          \"prosedur_guru\": \"Guru membagikan LKPD...\",\n          \"prosedur_siswa\": \"Siswa berpasangan heterogen menyelesaikan soal...\",\n          \"pertanyaan_kunci\": [\n            \"Bagaimana cara memfaktorkan bentuk aljabar jika koefisien bernilai negatif?\"\n          ],\n          \"muatan_inovatif\": {\n            \"deep_learning\": null,\n            \"impactful\": null,\n            \"differentiation\": null\n          }\n        },\n        {\n          \"waktu_menit\": 15,\n          \"milestone\": \"INTI\",\n          \"tahapan_sintaks\": \"Pembuktian (Verification)\",\n          \"prosedur_guru\": \"Guru memandu verifikasi hasil dengan mensubstitusi nilai x acak...\",\n          \"prosedur_siswa\": \"Siswa membandingkan pengerjaan dan memverifikasi kesamaan hasil...\",\n          \"pertanyaan_kunci\": [\n            \"Mengapa substitusi nilai angka membuktikan kebenaran manipulasi aljabar kita?\"\n          ],\n          \"muatan_inovatif\": {\n            \"deep_learning\": null,\n            \"impactful\": null,\n            \"differentiation\": null\n          }\n        },\n        {\n          \"waktu_menit\": 10,\n          \"milestone\": \"AKHIR\",\n          \"tahapan_sintaks\": \"Menarik Kesimpulan\",\n          \"prosedur_guru\": \"Guru membimbing siswa merangkum perbedaan esensial...\",\n          \"prosedur_siswa\": \"Siswa menyimpulkan alur pengerjaan...\",\n          \"pertanyaan_kunci\": [\n            \"Bagaimana membedakan kapan harus menjabarkan dan kapan harus memfaktorkan?\"\n          ],\n          \"muatan_inovatif\": {\n            \"deep_learning\": \"Melatih metakognisi siswa.\",\n            \"impactful\": null,\n            \"differentiation\": null\n          }\n        },\n        {\n          \"waktu_menit\": 5,\n          \"milestone\": \"AKHIR\",\n          \"tahapan_sintaks\": \"Refleksi\",\n          \"prosedur_guru\": \"Guru membagikan lembar exit ticket...\",\n          \"prosedur_siswa\": \"Siswa menyelesaikan soal exit ticket secara mandiri...\",\n          \"pertanyaan_kunci\": [\n            \"Seberapa percaya diri kamu dalam melakukan manipulasi aljabar?\"\n          ],\n          \"muatan_inovatif\": {\n            \"deep_learning\": null,\n            \"impactful\": \"Membangun kejujuran (Integrity) siswa.\",\n            \"differentiation\": {\n              \"type\": \"Produk\",\n              \"deskripsi\": \"Siswa berkemampuan tinggi membuat soal pemfaktoran sendiri.\"\n            }\n          }\n        }\n      ],\n      \"asesmen\": [\n        {\n          \"jenis\": \"Diagnostik\",\n          \"bentuk\": \"Pre-test 5 soal isian singkat.\",\n          \"lampiran\": \"Lembar Soal Diagnostik: Mengukur kemampuan prasyarat bilangan bulat.\"\n        },\n        {\n          \"jenis\": \"Afektif\",\n          \"bentuk\": \"Lembar Observasi Keaktifan.\",\n          \"lampiran\": \"Rubrik Observasi Guru: Menilai sikap kolaborasi dan kejujuran (Integrity).\"\n        },\n        {\n          \"jenis\": \"Formatif (Proses)\",\n          \"bentuk\": \"Laporan LKPD pengerjaan latihan aljabar.\",\n          \"lampiran\": \"Kunci Jawaban LKPD: Menilai ketepatan langkah penjabaran.\"\n        },\n        {\n          \"jenis\": \"Formatif (Refleksi)\",\n          \"bentuk\": \"Exit ticket di akhir pertemuan.\",\n          \"lampiran\": \"Jurnal Refleksi Siswa: Menganalisis tingkat pemahaman konsep.\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n*Note: In the `lampiran` fields, always format the text as `\"Title: Description\"` (separated by a colon and a space) so that the Word document can split it and render the Title in bold.*\n";
+
+        let activeTemplateBuffer = base64ToArrayBuffer(DEFAULT_TEMPLATE_B64);
+        let customTemplateName = null;
+
+        // Make functions globally accessible
+        window.downloadAiChatMd = downloadAiChatMd;
+        window.downloadTemplateDocx = downloadTemplateDocx;
+        window.handleJsonUpload = handleJsonUpload;
+        window.handleTemplateUpload = handleTemplateUpload;
+        window.compileDocument = compileDocument;
+
+        // Logging helper
+        function log(message, type = 'info') {
+            const consoleEl = document.getElementById('log-console');
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            if (type === 'error') logItem.className += ' log-error';
+            if (type === 'success') logItem.className += ' log-success';
+            logItem.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleEl.appendChild(logItem);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Helpers
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Downloads
+        function downloadAiChatMd() {
+            try {
+                const blob = new Blob([AI_CHAT_MD_CONTENT], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'AI-Chat.md';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                log("Downloaded AI-Chat.md instructions", "success");
+            } catch (err) {
+                log("Error downloading instructions: " + err.message, "error");
+            }
+        }
+
+        function downloadTemplateDocx() {
+            try {
+                const buffer = base64ToArrayBuffer(DEFAULT_TEMPLATE_B64);
+                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'template.docx';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                log("Downloaded base template.docx file", "success");
+            } catch (err) {
+                log("Error downloading template: " + err.message, "error");
+            }
+        }
+
+        // File Handlers
+        function handleJsonUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                document.getElementById('json-input').value = evt.target.result;
+                log(`Loaded JSON file: ${file.name}`, "success");
+            };
+            reader.readAsText(file);
+        }
+
+        function handleTemplateUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                activeTemplateBuffer = evt.target.result;
+                customTemplateName = file.name;
+                document.getElementById('template-upload-btn').textContent = file.name;
+                document.getElementById('template-upload-btn').className = "btn btn-outline btn-success";
+                log(`Loaded custom template document: ${file.name}`, "success");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Math Equation Formatting Engine (DOM XML Parser)
+        const englishTerms = [
+            "expanding brackets", "collecting like terms", "factorising",
+            "rational exponents", "laws of indices", "rationalising the denominator",
+            "scaffolding", "exit ticket", "pre-test", "flowchart",
+            "computational thinking", "deep learning", "differentiation",
+            "double check", "self-reflection", "peer evaluation", "color-coded",
+            "data collection", "data processing", "verification", "generalization",
+            "discovery learning", "inquiry learning", "problem based learning"
+        ];
+        const englishRegex = new RegExp("\\b(?:" + englishTerms.join("|") + ")\\b", "gi");
+
+        const mathPatterns = [
+            "\\b\\d+\\([x-z]\\+\\d+\\)\\s*-\\s*\\([x-z]-\\d+\\)",
+            "\\b[x-z]\\^2\\s*\\+\\s*[a-z]*[x-z]\\s*\\+\\s*[a-z]\\b",
+            "\\b[x-z]\\^2\\s*\\+\\s*\\([a-z]\\+[a-z]\\)[x-z]\\s*\\+\\s*[a-z]{2}\\b",
+            "\\b\\d+\\^\\d+\\s*x\\s*\\d+\\^\\d+\\b",
+            "\\b[a-z]\\^\\d+\\s*=\\s*\\d+\\b",
+            "\\b[a-z]\\^\\(-[a-z]\\)\\s*=\\s*\\d+/\\([a-z]\\^[a-z]\\)",
+            "\\b[a-z]\\^\\(-?\\d+/\\d+\\)\\s*=\\s*\\d+/sqrt\\([a-z]\\)",
+            "\\bsqrt\\([a-z]\\)\\s*x\\s*sqrt\\([a-z]\\)\\s*=\\s*[a-z]\\b",
+            "\\bsqrt\\(\\d+\\)\\s*=\\s*\\d*sqrt\\(\\d+\\)",
+            "\\b[a-z]/\\([a-z]\\s*\\+\\s*sqrt\\([a-z]\\)\\)",
+            "\\b[a-z]/\\(sqrt\\([a-z]\\)\\s*-\\s*sqrt\\([a-z]\\)\\)",
+            "\\b[a-z]\\^2\\s*-\\s*[a-z]\\^2\\b",
+            "\\bsqrt\\(\\d+\\)/sqrt\\(\\d+\\)",
+            "\\b\\d+/sqrt\\(\\d+\\)",
+            "\\b\\d+/\\(\\d+-sqrt\\(\\d+\\)\\)",
+            "\\b\\d+[a-z]\\s*[x/*]\\s*\\d+[a-z]\\b",
+            "\\([a-zA-Z\\d]+[+-][a-zA-Z\\d]+\\)\\([a-zA-Z\\d]+[+-][a-zA-Z\\d]+\\)",
+            "\\b[a-zA-Z\\d]+\\^\\(?[a-zA-Z\\d_+-/]+\\)?",
+            "\\bsqrt\\([a-zA-Z\\d_+-/]+\\)",
+            "\\b[x-zabcdenm]\\b"
+        ];
+        const mathRegex = new RegExp("(?:" + mathPatterns.join("|") + ")", "g");
+
+        const mathParser = {
+            parse(s) {
+                s = s.trim();
+                if (!s) return "";
+
+                // Equality/Operators at depth 0
+                let depth = 0;
+                let splitIdx = -1;
+                let splitOp = null;
+                for (let i = 0; i < s.length; i++) {
+                    const char = s[i];
+                    if (char === '(') {
+                        depth++;
+                    } else if (char === ')') {
+                        depth--;
+                    } else if (depth === 0) {
+                        if (char === '=') {
+                            splitIdx = i;
+                            splitOp = '=';
+                            break;
+                        } else if (char === '+' && splitOp !== '=') {
+                            splitIdx = i;
+                            splitOp = '+';
+                        } else if (char === '-' && splitOp !== '=' && splitOp !== '+') {
+                            splitIdx = i;
+                            splitOp = '-';
+                        } else if (s.substring(i, i + 3) === ' x ' && splitOp !== '=' && splitOp !== '+' && splitOp !== '-') {
+                            splitIdx = i;
+                            splitOp = ' x ';
+                        }
+                    }
+                }
+
+                if (splitIdx !== -1) {
+                    const left = s.substring(0, splitIdx);
+                    const right = s.substring(splitIdx + splitOp.length);
+                    if (splitOp === ' x ') {
+                        return this.parse(left) + '<m:r><m:t> \\u00d7 </m:t></m:r>' + this.parse(right);
+                    } else if (splitOp === '=') {
+                        return this.parse(left) + '<m:r><m:t> = </m:t></m:r>' + this.parse(right);
+                    } else if (splitOp === '+') {
+                        return this.parse(left) + '<m:r><m:t> + </m:t></m:r>' + this.parse(right);
+                    } else if (splitOp === '-') {
+                        return this.parse(left) + '<m:r><m:t> - </m:t></m:r>' + this.parse(right);
+                    }
+                }
+
+                // Division '/' at depth 0
+                depth = 0;
+                for (let i = 0; i < s.length; i++) {
+                    const char = s[i];
+                    if (char === '(') {
+                        depth++;
+                    } else if (char === ')') {
+                        depth--;
+                    } else if (depth === 0 && char === '/') {
+                        let left = s.substring(0, i);
+                        let right = s.substring(i + 1);
+                        if (left.startsWith('(') && left.endsWith(')')) left = left.substring(1, left.length - 1);
+                        if (right.startsWith('(') && right.endsWith(')')) right = right.substring(1, right.length - 1);
+                        return `<m:f><m:num>${this.parse(left)}</m:num><m:den>${this.parse(right)}</m:den></m:f>`;
+                    }
+                }
+
+                // Exponents '^' at depth 0 (right-to-left)
+                depth = 0;
+                for (let i = s.length - 1; i >= 0; i--) {
+                    const char = s[i];
+                    if (char === ')') {
+                        depth++;
+                    } else if (char === '(') {
+                        depth--;
+                    } else if (depth === 0 && char === '^') {
+                        let base = s.substring(0, i);
+                        let exponent = s.substring(i + 1);
+                        if (base.startsWith('(') && base.endsWith(')')) base = base.substring(1, base.length - 1);
+                        if (exponent.startsWith('(') && exponent.endsWith(')')) exponent = exponent.substring(1, exponent.length - 1);
+                        return `<m:sSup><m:e>${this.parse(base)}</m:e><m:sup>${this.parse(exponent)}</m:sup></m:sSup>`;
+                    }
+                }
+
+                // Square Root
+                if (s.startsWith('sqrt(') && s.endsWith(')')) {
+                    const radicand = s.substring(5, s.length - 1);
+                    return `<m:rad><m:radPr><m:degHide m:val="1"/></m:radPr><m:deg/><m:e>${this.parse(radicand)}</m:e></m:rad>`;
+                }
+
+                // Implicit Multiplications
+                const idxSqrt = s.indexOf("sqrt(");
+                if (idxSqrt > 0) {
+                    return this.parse(s.substring(0, idxSqrt)) + this.parse(s.substring(idxSqrt));
+                }
+
+                const idxParen = s.indexOf("(");
+                if (idxParen > 0) {
+                    return this.parse(s.substring(0, idxParen)) + this.parse(s.substring(idxParen));
+                }
+
+                // Text in parenthesis
+                if (s.startsWith('(') && s.endsWith(')')) {
+                    const inner = s.substring(1, s.length - 1);
+                    return `<m:r><m:t>(</m:t></m:r>${this.parse(inner)}<m:r><m:t>)</m:t></m:r>`;
+                }
+
+                // XML Escape & return
+                const t = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<m:r><m:t>${t}</m:t></m:r>`;
+            }
+        };
+
+        function formatParagraphNode(pNode, doc) {
+            const tNodes = pNode.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "t");
+            let text = "";
+            for (let i = 0; i < tNodes.length; i++) {
+                text += tNodes[i].textContent;
+            }
+
+            if (!text.trim()) return;
+
+            const matches = [];
+            englishRegex.lastIndex = 0;
+            mathRegex.lastIndex = 0;
+
+            let m;
+            while ((m = englishRegex.exec(text)) !== null) {
+                matches.push({ start: m.index, end: englishRegex.lastIndex, type: 'english', text: m[0] });
+            }
+
+            while ((m = mathRegex.exec(text)) !== null) {
+                const start = m.index;
+                const end = mathRegex.lastIndex;
+                const overlap = matches.some(em => !(end <= em.start || start >= em.end));
+                if (!overlap) {
+                    matches.push({ start, end, type: 'math', text: m[0] });
+                }
+            }
+
+            if (matches.length === 0) return;
+
+            matches.sort((a, b) => a.start - b.start);
+
+            // Remove existing runs and math nodes (leaving w:pPr intact)
+            const childrenToRemove = [];
+            for (let i = 0; i < pNode.childNodes.length; i++) {
+                const child = pNode.childNodes[i];
+                if (child.localName === 'r' || child.localName === 'oMath') {
+                    childrenToRemove.push(child);
+                }
+            }
+            childrenToRemove.forEach(child => pNode.removeChild(child));
+
+            function appendXml(xmlStr) {
+                const tempDoc = new DOMParser().parseFromString(xmlStr, "text/xml");
+                const importedNode = doc.importNode(tempDoc.documentElement, true);
+                pNode.appendChild(importedNode);
+            }
+
+            function escapeXml(str) {
+                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+
+            let lastIdx = 0;
+            for (const match of matches) {
+                if (match.start > lastIdx) {
+                    const normalText = text.substring(lastIdx, match.start);
+                    appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:t xml:space="preserve">${escapeXml(normalText)}</w:t></w:r>`);
+                }
+
+                if (match.type === 'english') {
+                    appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rPr><w:i/></w:rPr><w:t xml:space="preserve">${escapeXml(match.text)}</w:t></w:r>`);
+                } else if (match.type === 'math') {
+                    try {
+                        const ommlBody = mathParser.parse(match.text);
+                        const ommlXml = `<m:oMath xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">${ommlBody}</m:oMath>`;
+                        appendXml(ommlXml);
+                    } catch (err) {
+                        console.error("Error formatting math run:", match.text, err);
+                        appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rPr><w:i/></w:rPr><w:t xml:space="preserve">${escapeXml(match.text)}</w:t></w:r>`);
+                    }
+                }
+                lastIdx = match.end;
+            }
+
+            if (lastIdx < text.length) {
+                const remainingText = text.substring(lastIdx);
+                appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:t xml:space="preserve">${escapeXml(remainingText)}</w:t></w:r>`);
+            }
+        }
+
+        // Main Compiler Flow
+        async function compileDocument() {
+            const compileBtn = document.getElementById('compile-btn');
+            const jsonText = document.getElementById('json-input').value.trim();
+
+            if (!jsonText) {
+                log("Error: Please paste your lesson plan JSON first.", "error");
+                return;
+            }
+
+            let data;
+            try {
+                data = JSON.parse(jsonText);
+            } catch (err) {
+                log("JSON Parsing Error: " + err.message, "error");
+                log("Make sure your input is valid JSON without trailing commas or comments.", "error");
+                return;
+            }
+
+            compileBtn.disabled = true;
+            log("Compiler started...");
+            log("Loading template and parsing JSON data...");
+
+            try {
+                // 1. Compile variables/loops using docx-templates
+                log("Rendering document template loops and fields...");
+                const renderedBuffer = await createReport({
+                    template: activeTemplateBuffer,
+                    data,
+                    cmdDelimiter: ['{', '}']
+                });
+
+                // 2. Unzip compiled docx and parse word/document.xml
+                log("Opening document file system (unzipping docx)...");
+                const zip = await JSZip.loadAsync(renderedBuffer);
+                let docXmlText = await zip.file("word/document.xml").async("string");
+
+                log("Parsing XML elements and checking structures...");
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(docXmlText, "text/xml");
+
+                // Get all w:p elements (captures top-level, cells, headers/footers in document.xml)
+                let paras = doc.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "p");
+                if (!paras || paras.length === 0) {
+                    paras = doc.getElementsByTagName("w:p");
+                }
+                const parasList = Array.from(paras || []);
+
+                log(`Formatting ${parasList.length} paragraphs (processing equations & terminology)... `);
+                let formattedCount = 0;
+                for (const pNode of parasList) {
+                    formatParagraphNode(pNode, doc);
+                }
+
+                // 3. Serialize back and zip
+                log("Rebuilding document structure (re-zipping content)...");
+                const serializedXml = new XMLSerializer().serializeToString(doc);
+                zip.file("word/document.xml", serializedXml);
+
+                const finalBlob = await zip.generateAsync({
+                    type: "blob",
+                    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                });
+
+                // 4. Download
+                log("Finalizing document files...");
+                const url = URL.createObjectURL(finalBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'output_modul_ajar.docx';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                log("Success! Compiled Word document successfully downloaded.", "success");
+            } catch (err) {
+                log("Compilation Error: " + err.message, "error");
+                console.error("Compilation detailed error:", err);
+            } finally {
+                compileBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+node_modules/
+~$*.docx
+output*.docx
+template_base64.txt

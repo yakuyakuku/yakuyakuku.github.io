@@ -1,0 +1,391 @@
+{
+  "pertemuan_list": [
+    {
+      "pertemuan_number": 1,
+      "model_pembelajaran": "Discovery Learning",
+      "tujuan_pembelajaran": [
+        "1. Melakukan manipulasi aljabar dasar termasuk menjabarkan tanda kurung (expanding brackets), menyederhanakan suku sejenis (collecting like terms), dan memfaktorkan bentuk aljabar sederhana."
+      ],
+      "aktivitas_pembelajaran": [
+        {
+          "waktu_menit": 15,
+          "milestone": "AWAL",
+          "tahapan_sintaks": "Stimulasi dan Pernyataan Masalah",
+          "prosedur_guru": "Guru memberikan ekspresi aljabar seperti 2(x+3) - (x-4) di papan tulis dan menanyakan bagaimana menyederhanakannya secara logis. Guru memandu siswa untuk menyadari pentingnya sifat distributif.",
+          "prosedur_siswa": "Siswa mencoba menyederhanakan ekspresi aljabar tersebut, mendiskusikan pentingnya membuka kurung dengan benar, dan mengamati kesalahan tanda negatif yang sering terjadi.",
+          "pertanyaan_kunci": [
+            "Mengapa tanda negatif di depan kurung mengubah semua tanda di dalam kurung saat dijabarkan?",
+            "Bagaimana cara mengidentifikasi apakah dua suku merupakan suku sejenis (like terms)?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Mengaitkan konsep distributif perkalian aritmetika dasar dengan distributif pada variabel aljabar.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 25,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pengumpulan Data (Data Collection)",
+          "prosedur_guru": "Guru menjelaskan teori penjabaran distributif, perkalian binomial (ax+b)(cx+d), dan konsep pemfaktoran sebagai kebalikan dari ekspansi kurung (expanding brackets).",
+          "prosedur_siswa": "Siswa mencatat formula dasar ekspansi perkalian binomial and mencermati alur pemfaktoran persamaan kuadrat sederhana.",
+          "pertanyaan_kunci": [
+            "Bagaimana hubungan antara menjabarkan bentuk (x+a)(x+b) dengan memfaktorkan bentuk x^2 + (a+b)x + ab?",
+            "Kapan sebuah bentuk aljabar dikatakan sudah terfaktorkan secara sempurna?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": {
+              "type": "Proses",
+              "deskripsi": "Penyediaan visualisasi luas area persegi panjang untuk menjelaskan perkalian binomial."
+            }
+          }
+        },
+        {
+          "waktu_menit": 20,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pengolahan Data (Data Processing)",
+          "prosedur_guru": "Guru membagikan LKPD latihan menjabarkan kurung ganda dan memfaktorkan bentuk kuadrat. Guru berkeliling memberikan bantuan (scaffolding) terkait pengelompokan suku sejenis.",
+          "prosedur_siswa": "Siswa secara berpasangan heterogen menyelesaikan soal-soal latihan penyederhanaan aljabar dan pemfaktoran kuadrat.",
+          "pertanyaan_kunci": [
+            "Bagaimana kita memastikan tidak ada suku sejenis yang terlewat saat melakukan penyederhanaan?",
+            "Bagaimana memfaktorkan bentuk aljabar jika salah satu koefisien bernilai negatif?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 15,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pembuktian (Verification)",
+          "prosedur_guru": "Guru meminta beberapa siswa menuliskan langkah penyederhanaan mereka di papan tulis dan memandu verifikasi hasil dengan mensubstitusi nilai x acak ke persamaan awal dan hasil akhir.",
+          "prosedur_siswa": "Siswa membandingkan pengerjaan mereka, memverifikasi nilai substitusi variabel untuk melihat kesamaan hasil, dan mengoreksi kesalahan tanda aljabar.",
+          "pertanyaan_kunci": [
+            "Mengapa substitusi nilai angka ke dalam persamaan aljabar awal dan akhir dapat membuktikan kebenaran manipulasi aljabar kita?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 10,
+          "milestone": "AKHIR",
+          "tahapan_sintaks": "Menarik Kesimpulan",
+          "prosedur_guru": "Guru membimbing siswa merangkum perbedaan esensial antara ekspansi (expanding) dan pemfaktoran (factorising) bentuk aljabar.",
+          "prosedur_siswa": "Siswa menyimpulkan alur pengerjaan manipulasi aljabar dan mencatat kesalahan umum yang harus dihindari.",
+          "pertanyaan_kunci": [
+            "Bagaimana membedakan kapan kita harus menjabarkan (expand) dan kapan harus memfaktorkan (factorise) suatu ekspresi dalam penyelesaian soal?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Melatih metakognisi siswa dalam menyusun peta konsep aljabar.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 5,
+          "milestone": "AKHIR",
+          "tahapan_sintaks": "Refleksi",
+          "prosedur_guru": "Guru membagikan lembar exit ticket pendek berisi satu soal pemfaktoran kuadrat dan satu pertanyaan reflektif.",
+          "prosedur_siswa": "Siswa menyelesaikan soal exit ticket secara mandiri dan jujur untuk mengukur pemahaman mereka hari ini.",
+          "pertanyaan_kunci": [
+            "Seberapa percaya diri kamu dalam melakukan manipulasi aljabar kurung ganda?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": "Membangun kejujuran (Integrity) siswa dalam pengerjaan exit ticket tanpa melihat catatan.",
+            "differentiation": {
+              "type": "Produk",
+              "deskripsi": "Siswa dengan kemampuan tinggi diberikan opsi untuk membuat soal pemfaktoran kuadrat buatan mereka sendiri."
+            }
+          }
+        }
+      ],
+      "asesmen": [
+        {
+          "jenis": "Diagnostik",
+          "bentuk": "Pre-test 5 soal isian singkat dasar aritmetika.",
+          "lampiran": "Lembar Soal Diagnostik: Mengukur kemampuan prasyarat aturan tanda operasi bilangan bulat (positif dan negatif) serta distributif dasar."
+        },
+        {
+          "jenis": "Afektif",
+          "bentuk": "Lembar Observasi Keaktifan Diskusi dan Karakter Integritas.",
+          "lampiran": "Rubrik Observasi Guru: Menilai sikap kolaborasi dalam diskusi berpasangan dan kejujuran (Integrity) saat melakukan pengerjaan mandiri tanpa bantuan aplikasi luar."
+        },
+        {
+          "jenis": "Formatif (Proses)",
+          "bentuk": "Laporan LKPD pengerjaan latihan manipulasi aljabar.",
+          "lampiran": "Kunci Jawaban & Rubrik Penilaian LKPD: Menilai ketepatan langkah penjabaran kurung ganda dan pemfaktoran kuadrat sederhana."
+        },
+        {
+          "jenis": "Formatif (Refleksi)",
+          "bentuk": "Exit ticket di akhir pertemuan.",
+          "lampiran": "Jurnal Refleksi Siswa: Menganalisis tingkat pemahaman siswa terhadap konsep pemfaktoran versus perluasan kurung."
+        }
+      ]
+    },
+    {
+      "pertemuan_number": 2,
+      "model_pembelajaran": "Inquiry Learning",
+      "tujuan_pembelajaran": [
+        "1. Memahami dan menerapkan hukum-hukum eksponen (laws of indices) untuk semua eksponen rasional."
+      ],
+      "aktivitas_pembelajaran": [
+        {
+          "waktu_menit": 15,
+          "milestone": "AWAL",
+          "tahapan_sintaks": "Stimulasi dan Pernyataan Masalah",
+          "prosedur_guru": "Guru menuliskan soal seperti 2^3 x 2^4 and 8^(2/3) di papan tulis. Guru memicu diskusi tentang cara cepat menyederhanakan perkalian pangkat dan menghitung eksponen pecahan tanpa menjabarkan nilainya satu-satu.",
+          "prosedur_siswa": "Siswa mencoba merumuskan pola perpangkatan dari soal pemantik, mendiskusikan arti pangkat pecahan, dan menyadari perlunya hukum indeks yang sistematis.",
+          "pertanyaan_kunci": [
+            "Bagaimana kita menjelaskan arti matematis dari eksponen rasional seperti 8^(2/3)?",
+            "Mengapa basis angka harus sama agar hukum perkalian eksponen dapat berlaku?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Mengaitkan konsep pangkat bulat positif dengan konsep akar dan eksponen pecahan.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 25,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pengumpulan Data (Data Collection)",
+          "prosedur_guru": "Guru menjelaskan 7 hukum eksponen dasar (perkalian, pembagian, perpangkatan pangkat, eksponen negatif, eksponen nol, eksponen rasional). Guru memberikan contoh penyederhanaan bentuk pangkat rasional.",
+          "prosedur_siswa": "Siswa mencatat sifat-sifat eksponen rasional dan mencermati pembuktian logis mengapa a^0 = 1 dan a^(-n) = 1/(a^n).",
+          "pertanyaan_kunci": [
+            "Bagaimana cara kita membuktikan secara logis bahwa a^0 = 1 dengan menggunakan hukum pembagian eksponen?",
+            "Apa perbedaan antara eksponen negatif dan nilai hasil perpangkatan yang bernilai negatif?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": {
+              "type": "Konten",
+              "deskripsi": "Guru menyediakan tabel rangkuman hukum eksponen dengan tingkat kesulitan contoh soal yang bertingkat."
+            }
+          }
+        },
+        {
+          "waktu_menit": 20,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pengolahan Data (Data Processing)",
+          "prosedur_guru": "Guru membagikan LKPD yang berisi soal penyederhanaan eksponen rasional. Guru memantau diskusi dan memfasilitasi kelompok yang kesulitan memahami hukum pangkat rasional.",
+          "prosedur_siswa": "Siswa dalam kelompok heterogen mendiskusikan langkah penyederhanaan eksponen rasional yang kompleks dan menuliskan alur langkahnya.",
+          "pertanyaan_kunci": [
+            "Hukum eksponen mana yang harus diterapkan terlebih dahulu jika terdapat tanda kurung dan pembagian sekaligus?",
+            "Bagaimana menyederhanakan ekspresi jika pangkat basisnya berbeda?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Melatih keterampilan pemecahan masalah dengan menguji konsistensi alur pengerjaan.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 15,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pembuktian (Verification)",
+          "prosedur_guru": "Guru meminta perwakilan kelompok mempresentasikan alur jawaban dan membimbing siswa memverifikasi kebenaran penyederhanaan menggunakan penghitungan desimal/kalkulator sederhana.",
+          "prosedur_siswa": "Siswa mempresentasikan hasil diskusi kelompok, memverifikasi konsistensi numerik hasil penyederhanaan, dan melakukan koreksi mandiri jika terjadi kesalahan hukum indeks.",
+          "pertanyaan_kunci": [
+            "Bagaimana kita memverifikasi bahwa x^(-1/2) setara dengan 1/sqrt(x)?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 10,
+          "milestone": "AKHIR",
+          "tahapan_sintaks": "Menarik Kesimpulan",
+          "prosedur_guru": "Guru membimbing siswa merangkum 7 hukum utama eksponen rasional dan mengidentifikasi miskonsepsi umum (seperti menjumlahkan basis saat perkalian eksponen).",
+          "prosedur_siswa": "Siswa membuat ringkasan mandiri mengenai peta jalan hukum eksponen dan poin krusial eksponen pecahan.",
+          "pertanyaan_kunci": [
+            "Kesalahan umum apa yang paling sering terjadi saat menyederhanakan bentuk pecahan eksponen pecahan?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Mendorong kesadaran metakognitif mengenai strategi penyederhanaan pangkat.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 5,
+          "milestone": "AKHIR",
+          "tahapan_sintaks": "Refleksi",
+          "prosedur_guru": "Guru membagikan lembar exit ticket refleksi dan memberikan umpan balik singkat terhadap proses pembelajaran.",
+          "prosedur_siswa": "Siswa mengisi exit ticket secara mandiri mengenai hukum indeks yang paling menantang dan yang paling mudah dipahami.",
+          "pertanyaan_kunci": [
+            "Bagian manakah dari hukum indeks yang menurutmu membutuhkan lebih banyak latihan soal?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": "Membiasakan refleksi jujur (Mindful) mengenai kemajuan belajar pribadi.",
+            "differentiation": null
+          }
+        }
+      ],
+      "asesmen": [
+        {
+          "jenis": "Diagnostik",
+          "bentuk": "Pre-test 5 soal pilihan ganda tentang perpangkatan bulat dasar.",
+          "lampiran": "Lembar Soal Diagnostik: Mengukur prasyarat tentang arti perpangkatan, perkalian berulang bilangan bulat, dan pembagian bilangan berpangkat sederhana."
+        },
+        {
+          "jenis": "Afektif",
+          "bentuk": "Observasi ketelitian dan kemandirian pengerjaan tugas.",
+          "lampiran": "Lembar Observasi Sikap: Menilai ketekunan siswa (Mindful) saat memecahkan soal eksponen kompleks dan kemandirian dalam mencari penyelesaian."
+        },
+        {
+          "jenis": "Formatif (Proses)",
+          "bentuk": "Kinerja kelompok menyederhanakan rantai eksponen bertingkat.",
+          "lampiran": "Lembar Penilaian Kinerja (LKBA): Menilai kemampuan dekomposisi langkah penyederhanaan bentuk eksponen pecahan."
+        },
+        {
+          "jenis": "Formatif (Refleksi)",
+          "bentuk": "Jurnal Refleksi Akhir Pertemuan.",
+          "lampiran": "Jurnal Refleksi Siswa: Catatan mengenai miskonsepsi hukum indeks negatif dan pecahan yang berhasil diidentifikasi."
+        }
+      ]
+    },
+    {
+      "pertemuan_number": 3,
+      "model_pembelajaran": "Problem Based Learning",
+      "tujuan_pembelajaran": [
+        "1. Menggunakan dan memanipulasi bentuk akar (surds), termasuk merasionalkan penyebut pecahan (rationalising the denominator)."
+      ],
+      "aktivitas_pembelajaran": [
+        {
+          "waktu_menit": 15,
+          "milestone": "AWAL",
+          "tahapan_sintaks": "Stimulasi dan Pernyataan Masalah",
+          "prosedur_guru": "Guru menuliskan pecahan 6/sqrt(3) and 2/(3-sqrt(5)) di papan tulis. Guru menanyakan mengapa penyebut pecahan tersebut tidak praktis untuk dihitung langsung secara manual dan mengarahkan siswa ke konsep perkalian sekawan untuk merasionalkan penyebut.",
+          "prosedur_siswa": "Siswa mencoba memikirkan cara menghilangkan akar di bagian penyebut pecahan, mendiskusikan konsep perkalian sekawan, dan mengamati bentuk perkalian sekawan dasar.",
+          "pertanyaan_kunci": [
+            "Mengapa penyebut berbentuk akar seperti sqrt(3) perlu dirasionalkan?",
+            "Apa yang terjadi jika kita mengalikan pecahan tersebut dengan pecahan bernilai 1 (misalnya sqrt(3)/sqrt(3))?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Menghubungkan konsep perkalian aljabar binomial (selisih kuadrat) dengan konsep perkalian bentuk akar sekawan.",
+            "impactful": "Melatih siswa berpikir logis dalam memecahkan masalah kontekstual matematika.",
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 25,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pengumpulan Data (Data Collection)",
+          "prosedur_guru": "Guru mendemonstrasikan sifat-sifat dasar bentuk akar: perkalian akar sejenis sqrt(a) x sqrt(a) = a, penyederhanaan bentuk akar sqrt(18) = 3sqrt(2), dan teknik perkalian sekawan untuk pecahan penyebut akar tunggal dan binomial.",
+          "prosedur_siswa": "Siswa mencatat sifat dasar manipulasi bentuk akar dan mengamati pemodelan merasionalkan pecahan penyebut bentuk akar di papan tulis.",
+          "pertanyaan_kunci": [
+            "Bagaimana membuktikan bahwa (a - sqrt(b))(a + sqrt(b)) akan selalu menghasilkan bilangan rasional bebas bentuk akar?",
+            "Bagaimana menentukan bentuk sekawan dari penyebut berbentuk sqrt(a) + sqrt(b)?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": {
+              "type": "Proses",
+              "deskripsi": "Menggunakan kartu sekawan berwarna (color-coded) untuk membantu siswa visual mengidentifikasi pasangan sekawan aljabar."
+            }
+          }
+        },
+        {
+          "waktu_menit": 20,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pengolahan Data (Data Processing)",
+          "prosedur_guru": "Guru membagikan LKPD yang berisi tantangan merasionalkan pecahan penyebut akar majemuk. Guru berkeliling memberikan scaffolding terkait perkalian distributif pembilang.",
+          "prosedur_siswa": "Siswa secara berpasangan berdiskusi untuk merasionalkan penyebut pecahan dan menuliskan langkah-langkah dekomposisi perhitungannya secara sistematis.",
+          "pertanyaan_kunci": [
+            "Bagaimana langkah pertama merasionalkan pecahan jika penyebutnya terdiri dari penjumlahan bilangan bulat dan akar?",
+            "Apa kesalahan yang sering terjadi saat melakukan operasi pembagian setelah penyebut dirasionalkan?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 15,
+          "milestone": "INTI",
+          "tahapan_sintaks": "Pembuktian (Verification)",
+          "prosedur_guru": "Guru meminta beberapa pasangan siswa menuliskan alur pengerjaan di papan tulis dan memimpin verifikasi aljabar dengan menyederhanakan pecahan balik.",
+          "prosedur_siswa": "Siswa mendemonstrasikan langkah perkalian sekawan di depan kelas, saling menanggapi kebenaran hasil kelompok lain, dan mengoreksi jika ada salah hitung distributif.",
+          "pertanyaan_kunci": [
+            "Bagaimana cara memeriksa kembali (double check) hasil rasionalkah pecahan kita agar yakin tidak ada kesalahan aritmetika?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Melatih kemampuan evaluasi dan berpikir kritis terhadap kesalahan komputasi teman sejawat.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 10,
+          "milestone": "AKHIR",
+          "tahapan_sintaks": "Menarik Kesimpulan",
+          "prosedur_guru": "Guru membimbing siswa menarik kesimpulan umum formula merasionalkan penyebut: c/(a + sqrt(b)) dan c/(sqrt(a) - sqrt(b)).",
+          "prosedur_siswa": "Siswa menyusun rangkuman konseptual perkalian sekawan dan menyimpulkan aturan selisih kuadrat dalam bentuk akar.",
+          "pertanyaan_kunci": [
+            "Mengapa penyebut pecahan rasional lebih disukai dalam perhitungan matematika ilmiah dibandingkan penyebut irasional?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": "Mendorong kesadaran metakognitif siswa dalam merumuskan algoritma pemecahan masalah bentuk akar.",
+            "impactful": null,
+            "differentiation": null
+          }
+        },
+        {
+          "waktu_menit": 5,
+          "milestone": "AKHIR",
+          "tahapan_sintaks": "Refleksi",
+          "prosedur_guru": "Guru membagikan Exit Ticket refleksi pembelajaran bentuk akar dan teknik merasionalkan penyebut.",
+          "prosedur_siswa": "Siswa mengisi exit ticket secara jujur dan mandiri mengenai sub-materi bentuk akar sekawan yang dirasa paling sulit.",
+          "pertanyaan_kunci": [
+            "Pada bagian merasionalkan penyebut manakah yang masih membuatmu bingung saat melakukan perkalian distributif?"
+          ],
+          "muatan_inovatif": {
+            "deep_learning": null,
+            "impactful": "Membangun kejujuran akademis dalam melakukan evaluasi diri.",
+            "differentiation": {
+              "type": "Produk",
+              "deskripsi": "Siswa diperbolehkan mendeskripsikan langkah merasionalkan pecahan secara verbal lisan, tulisan terstruktur, maupun dalam diagram alir langkah."
+            }
+          }
+        }
+      ],
+      "asesmen": [
+        {
+          "jenis": "Diagnostik",
+          "bentuk": "Pre-test 5 soal pilihan ganda konsep akar sederhana.",
+          "lampiran": "Lembar Soal Diagnostik: Mengukur prasyarat tentang perkalian akar sederhana (sqrt(2) x sqrt(2)) dan pemfaktoran selisih kuadrat (a^2 - b^2)."
+        },
+        {
+          "jenis": "Afektif",
+          "bentuk": "Observasi ketelitian (mindfulness) dalam proses perhitungan.",
+          "lampiran": "Lembar Observasi Sikap: Menilai ketelitian siswa (Mindful) dalam menuliskan tanda positif/negatif pada perkalian sekawan dan sikap kolaboratif berpasangan."
+        },
+        {
+          "jenis": "Formatif (Proses)",
+          "bentuk": "Kinerja kelompok merasionalkan penyebut dan menyederhanakan bentuk akar.",
+          "lampiran": "Lembar Penilaian Kinerja (LKBA): Menilai pembuatan algoritma/diagram alir (Flowchart) langkah-langkah merasionalkan penyebut pecahan akar."
+        },
+        {
+          "jenis": "Formatif (Refleksi)",
+          "bentuk": "Exit ticket reflektif di akhir pembelajaran.",
+          "lampiran": "Jurnal Refleksi Siswa: Menganalisis hambatan siswa terkait perkalian binomial yang melibatkan bentuk akar sekawan."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Plan (Modul Ajar) Compiler</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- JSZip for client-side unzipping & rebuilding -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-success: #10b981;
+            --accent-danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Typography & Header */
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Layout Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.05);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a5b4fc;
+        }
+
+        p.instruction-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Steps & Download Section */
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-item {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .step-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        /* Buttons styling */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: #e0e7ff;
+        }
+
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Textarea and dropzones */
+        textarea {
+            width: 100%;
+            height: 250px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            padding: 1.25rem;
+            resize: vertical;
+            outline: none;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+        }
+
+        .flex-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-label {
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* System Logs / Output Console */
+        .console {
+            background: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #38bdf8;
+            margin-bottom: 1.5rem;
+        }
+
+        .log-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .log-error {
+            color: var(--accent-danger);
+        }
+
+        .log-success {
+            color: var(--accent-success);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lesson Plan Compiler</h1>
+            <p>Generate native Word Modul Ajar files entirely in your browser with mathematical formatting</p>
+        </header>
+
+        <!-- Step 1: AI Instructions -->
+        <div class="card">
+            <h2>Step 1: Get structured JSON from your AI Assistant</h2>
+            <p class="instruction-text">Download the instruction manual below, attach it to ChatGPT or Claude along with your topic details, and have the AI generate your structured lesson plan data.</p>
+            
+            <div class="step-grid">
+                <div class="step-item">
+                    <div>
+                        <div class="step-number">Rule Book</div>
+                        <div class="step-title">AI-Chat.md</div>
+                        <p class="step-desc">System instructions and formatting requirements for AI chatbots.</p>
+                    </div>
+                    <button class="btn btn-outline" onclick="downloadAiChatMd()">Download Instructions</button>
+                </div>
+                
+                <div class="step-item">
+                    <div>
+                        <div class="step-number">Base Template</div>
+                        <div class="step-title">Word Template</div>
+                        <p class="step-desc">The official Modul Ajar structure containing loops and formats.</p>
+                    </div>
+                    <button class="btn btn-outline" onclick="downloadTemplateDocx()">Download Default Template</button>
+                </div>
+            </div>
+            
+            <div style="background: rgba(99, 102, 241, 0.05); border: 1px dashed rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 1.25rem;">
+                <h4 style="font-weight: 600; color: #e0e7ff; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    💡 How to ask the AI Chatbot:
+                </h4>
+                <ol style="margin-left: 1.25rem; color: var(--text-muted); font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                    <li>Attach the downloaded <strong>AI-Chat.md</strong> file.</li>
+                    <li>Provide your syllabus guidelines, whiteboard photo, or text instructions.</li>
+                    <li>Ask: <em>"Buat modul ajar berdasarkan topik X sesuai dengan aturan di file AI-Chat.md"</em>.</li>
+                    <li>Copy the resulting JSON output code block.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Step 2: Paste and Compile -->
+        <div class="card">
+            <h2>Step 2: Paste JSON & Compile Word Document</h2>
+            <p class="instruction-text">Input your generated JSON data below. You can also upload a custom `.docx` template if you want to override the default layout.</p>
+            
+            <div class="flex-row">
+                <span class="input-label">Paste JSON Content:</span>
+                <div class="file-upload-wrapper">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Load JSON File</button>
+                    <input type="file" id="json-upload" accept=".json" onchange="handleJsonUpload(event)">
+                </div>
+            </div>
+            
+            <textarea id="json-input" placeholder="Paste your generated JSON here..."></textarea>
+            
+            <div class="flex-row" style="margin-bottom: 1.5rem;">
+                <span class="input-label">Custom Template (Optional):</span>
+                <div class="file-upload-wrapper">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" id="template-upload-btn">Use Custom docx</button>
+                    <input type="file" id="template-upload" accept=".docx" onchange="handleTemplateUpload(event)">
+                </div>
+            </div>
+
+            <!-- Console Log -->
+            <div class="console" id="log-console">
+                <div class="log-item">Console ready... Paste JSON and click Compile.</div>
+            </div>
+
+            <button class="btn btn-primary" id="compile-btn" onclick="compileDocument()">Generate Word Document</button>
+        </div>
+
+        <footer>
+            <p>Runs entirely offline client-side. Built with ❤️ for educators.</p>
+        </footer>
+    </div>
+
+    <!-- Client-side Logic (ES Modules) -->
+    <script type="module">
+        import { createReport } from 'https://unpkg.com/docx-templates/lib/browser.js';
+
+        // Injected assets from build script
+        const DEFAULT_TEMPLATE_B64 = "{{TEMPLATE_BASE64}}";
+        const AI_CHAT_MD_CONTENT = "__AI_CHAT_MD_PLACEHOLDER__";
+
+        let activeTemplateBuffer = base64ToArrayBuffer(DEFAULT_TEMPLATE_B64);
+        let customTemplateName = null;
+
+        // Make functions globally accessible
+        window.downloadAiChatMd = downloadAiChatMd;
+        window.downloadTemplateDocx = downloadTemplateDocx;
+        window.handleJsonUpload = handleJsonUpload;
+        window.handleTemplateUpload = handleTemplateUpload;
+        window.compileDocument = compileDocument;
+
+        // Logging helper
+        function log(message, type = 'info') {
+            const consoleEl = document.getElementById('log-console');
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            if (type === 'error') logItem.className += ' log-error';
+            if (type === 'success') logItem.className += ' log-success';
+            logItem.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleEl.appendChild(logItem);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Helpers
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Downloads
+        function downloadAiChatMd() {
+            try {
+                const blob = new Blob([AI_CHAT_MD_CONTENT], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'AI-Chat.md';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                log("Downloaded AI-Chat.md instructions", "success");
+            } catch (err) {
+                log("Error downloading instructions: " + err.message, "error");
+            }
+        }
+
+        function downloadTemplateDocx() {
+            try {
+                const buffer = base64ToArrayBuffer(DEFAULT_TEMPLATE_B64);
+                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'template.docx';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                log("Downloaded base template.docx file", "success");
+            } catch (err) {
+                log("Error downloading template: " + err.message, "error");
+            }
+        }
+
+        // File Handlers
+        function handleJsonUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                document.getElementById('json-input').value = evt.target.result;
+                log(`Loaded JSON file: ${file.name}`, "success");
+            };
+            reader.readAsText(file);
+        }
+
+        function handleTemplateUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                activeTemplateBuffer = evt.target.result;
+                customTemplateName = file.name;
+                document.getElementById('template-upload-btn').textContent = file.name;
+                document.getElementById('template-upload-btn').className = "btn btn-outline btn-success";
+                log(`Loaded custom template document: ${file.name}`, "success");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Math Equation Formatting Engine (DOM XML Parser)
+        const englishTerms = [
+            "expanding brackets", "collecting like terms", "factorising",
+            "rational exponents", "laws of indices", "rationalising the denominator",
+            "scaffolding", "exit ticket", "pre-test", "flowchart",
+            "computational thinking", "deep learning", "differentiation",
+            "double check", "self-reflection", "peer evaluation", "color-coded",
+            "data collection", "data processing", "verification", "generalization",
+            "discovery learning", "inquiry learning", "problem based learning"
+        ];
+        const englishRegex = new RegExp("\\b(?:" + englishTerms.join("|") + ")\\b", "gi");
+
+        const mathPatterns = [
+            "\\b\\d+\\([x-z]\\+\\d+\\)\\s*-\\s*\\([x-z]-\\d+\\)",
+            "\\b[x-z]\\^2\\s*\\+\\s*[a-z]*[x-z]\\s*\\+\\s*[a-z]\\b",
+            "\\b[x-z]\\^2\\s*\\+\\s*\\([a-z]\\+[a-z]\\)[x-z]\\s*\\+\\s*[a-z]{2}\\b",
+            "\\b\\d+\\^\\d+\\s*x\\s*\\d+\\^\\d+\\b",
+            "\\b[a-z]\\^\\d+\\s*=\\s*\\d+\\b",
+            "\\b[a-z]\\^\\(-[a-z]\\)\\s*=\\s*\\d+/\\([a-z]\\^[a-z]\\)",
+            "\\b[a-z]\\^\\(-?\\d+/\\d+\\)\\s*=\\s*\\d+/sqrt\\([a-z]\\)",
+            "\\bsqrt\\([a-z]\\)\\s*x\\s*sqrt\\([a-z]\\)\\s*=\\s*[a-z]\\b",
+            "\\bsqrt\\(\\d+\\)\\s*=\\s*\\d*sqrt\\(\\d+\\)",
+            "\\b[a-z]/\\([a-z]\\s*\\+\\s*sqrt\\([a-z]\\)\\)",
+            "\\b[a-z]/\\(sqrt\\([a-z]\\)\\s*-\\s*sqrt\\([a-z]\\)\\)",
+            "\\b[a-z]\\^2\\s*-\\s*[a-z]\\^2\\b",
+            "\\bsqrt\\(\\d+\\)/sqrt\\(\\d+\\)",
+            "\\b\\d+/sqrt\\(\\d+\\)",
+            "\\b\\d+/\\(\\d+-sqrt\\(\\d+\\)\\)",
+            "\\b\\d+[a-z]\\s*[x/*]\\s*\\d+[a-z]\\b",
+            "\\([a-zA-Z\\d]+[+-][a-zA-Z\\d]+\\)\\([a-zA-Z\\d]+[+-][a-zA-Z\\d]+\\)",
+            "\\b[a-zA-Z\\d]+\\^\\(?[a-zA-Z\\d_+-/]+\\)?",
+            "\\bsqrt\\([a-zA-Z\\d_+-/]+\\)",
+            "\\b[x-zabcdenm]\\b"
+        ];
+        const mathRegex = new RegExp("(?:" + mathPatterns.join("|") + ")", "g");
+
+        const mathParser = {
+            parse(s) {
+                s = s.trim();
+                if (!s) return "";
+
+                // Equality/Operators at depth 0
+                let depth = 0;
+                let splitIdx = -1;
+                let splitOp = null;
+                for (let i = 0; i < s.length; i++) {
+                    const char = s[i];
+                    if (char === '(') {
+                        depth++;
+                    } else if (char === ')') {
+                        depth--;
+                    } else if (depth === 0) {
+                        if (char === '=') {
+                            splitIdx = i;
+                            splitOp = '=';
+                            break;
+                        } else if (char === '+' && splitOp !== '=') {
+                            splitIdx = i;
+                            splitOp = '+';
+                        } else if (char === '-' && splitOp !== '=' && splitOp !== '+') {
+                            splitIdx = i;
+                            splitOp = '-';
+                        } else if (s.substring(i, i + 3) === ' x ' && splitOp !== '=' && splitOp !== '+' && splitOp !== '-') {
+                            splitIdx = i;
+                            splitOp = ' x ';
+                        }
+                    }
+                }
+
+                if (splitIdx !== -1) {
+                    const left = s.substring(0, splitIdx);
+                    const right = s.substring(splitIdx + splitOp.length);
+                    if (splitOp === ' x ') {
+                        return this.parse(left) + '<m:r><m:t> \\u00d7 </m:t></m:r>' + this.parse(right);
+                    } else if (splitOp === '=') {
+                        return this.parse(left) + '<m:r><m:t> = </m:t></m:r>' + this.parse(right);
+                    } else if (splitOp === '+') {
+                        return this.parse(left) + '<m:r><m:t> + </m:t></m:r>' + this.parse(right);
+                    } else if (splitOp === '-') {
+                        return this.parse(left) + '<m:r><m:t> - </m:t></m:r>' + this.parse(right);
+                    }
+                }
+
+                // Division '/' at depth 0
+                depth = 0;
+                for (let i = 0; i < s.length; i++) {
+                    const char = s[i];
+                    if (char === '(') {
+                        depth++;
+                    } else if (char === ')') {
+                        depth--;
+                    } else if (depth === 0 && char === '/') {
+                        let left = s.substring(0, i);
+                        let right = s.substring(i + 1);
+                        if (left.startsWith('(') && left.endsWith(')')) left = left.substring(1, left.length - 1);
+                        if (right.startsWith('(') && right.endsWith(')')) right = right.substring(1, right.length - 1);
+                        return `<m:f><m:num>${this.parse(left)}</m:num><m:den>${this.parse(right)}</m:den></m:f>`;
+                    }
+                }
+
+                // Exponents '^' at depth 0 (right-to-left)
+                depth = 0;
+                for (let i = s.length - 1; i >= 0; i--) {
+                    const char = s[i];
+                    if (char === ')') {
+                        depth++;
+                    } else if (char === '(') {
+                        depth--;
+                    } else if (depth === 0 && char === '^') {
+                        let base = s.substring(0, i);
+                        let exponent = s.substring(i + 1);
+                        if (base.startsWith('(') && base.endsWith(')')) base = base.substring(1, base.length - 1);
+                        if (exponent.startsWith('(') && exponent.endsWith(')')) exponent = exponent.substring(1, exponent.length - 1);
+                        return `<m:sSup><m:e>${this.parse(base)}</m:e><m:sup>${this.parse(exponent)}</m:sup></m:sSup>`;
+                    }
+                }
+
+                // Square Root
+                if (s.startsWith('sqrt(') && s.endsWith(')')) {
+                    const radicand = s.substring(5, s.length - 1);
+                    return `<m:rad><m:radPr><m:degHide m:val="1"/></m:radPr><m:deg/><m:e>${this.parse(radicand)}</m:e></m:rad>`;
+                }
+
+                // Implicit Multiplications
+                const idxSqrt = s.indexOf("sqrt(");
+                if (idxSqrt > 0) {
+                    return this.parse(s.substring(0, idxSqrt)) + this.parse(s.substring(idxSqrt));
+                }
+
+                const idxParen = s.indexOf("(");
+                if (idxParen > 0) {
+                    return this.parse(s.substring(0, idxParen)) + this.parse(s.substring(idxParen));
+                }
+
+                // Text in parenthesis
+                if (s.startsWith('(') && s.endsWith(')')) {
+                    const inner = s.substring(1, s.length - 1);
+                    return `<m:r><m:t>(</m:t></m:r>${this.parse(inner)}<m:r><m:t>)</m:t></m:r>`;
+                }
+
+                // XML Escape & return
+                const t = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<m:r><m:t>${t}</m:t></m:r>`;
+            }
+        };
+
+        function formatParagraphNode(pNode, doc) {
+            const tNodes = pNode.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "t");
+            let text = "";
+            for (let i = 0; i < tNodes.length; i++) {
+                text += tNodes[i].textContent;
+            }
+
+            if (!text.trim()) return;
+
+            const matches = [];
+            englishRegex.lastIndex = 0;
+            mathRegex.lastIndex = 0;
+
+            let m;
+            while ((m = englishRegex.exec(text)) !== null) {
+                matches.push({ start: m.index, end: englishRegex.lastIndex, type: 'english', text: m[0] });
+            }
+
+            while ((m = mathRegex.exec(text)) !== null) {
+                const start = m.index;
+                const end = mathRegex.lastIndex;
+                const overlap = matches.some(em => !(end <= em.start || start >= em.end));
+                if (!overlap) {
+                    matches.push({ start, end, type: 'math', text: m[0] });
+                }
+            }
+
+            if (matches.length === 0) return;
+
+            matches.sort((a, b) => a.start - b.start);
+
+            // Remove existing runs and math nodes (leaving w:pPr intact)
+            const childrenToRemove = [];
+            for (let i = 0; i < pNode.childNodes.length; i++) {
+                const child = pNode.childNodes[i];
+                if (child.localName === 'r' || child.localName === 'oMath') {
+                    childrenToRemove.push(child);
+                }
+            }
+            childrenToRemove.forEach(child => pNode.removeChild(child));
+
+            function appendXml(xmlStr) {
+                const tempDoc = new DOMParser().parseFromString(xmlStr, "text/xml");
+                const importedNode = doc.importNode(tempDoc.documentElement, true);
+                pNode.appendChild(importedNode);
+            }
+
+            function escapeXml(str) {
+                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+
+            let lastIdx = 0;
+            for (const match of matches) {
+                if (match.start > lastIdx) {
+                    const normalText = text.substring(lastIdx, match.start);
+                    appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:t xml:space="preserve">${escapeXml(normalText)}</w:t></w:r>`);
+                }
+
+                if (match.type === 'english') {
+                    appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rPr><w:i/></w:rPr><w:t xml:space="preserve">${escapeXml(match.text)}</w:t></w:r>`);
+                } else if (match.type === 'math') {
+                    try {
+                        const ommlBody = mathParser.parse(match.text);
+                        const ommlXml = `<m:oMath xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">${ommlBody}</m:oMath>`;
+                        appendXml(ommlXml);
+                    } catch (err) {
+                        console.error("Error formatting math run:", match.text, err);
+                        appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rPr><w:i/></w:rPr><w:t xml:space="preserve">${escapeXml(match.text)}</w:t></w:r>`);
+                    }
+                }
+                lastIdx = match.end;
+            }
+
+            if (lastIdx < text.length) {
+                const remainingText = text.substring(lastIdx);
+                appendXml(`<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:t xml:space="preserve">${escapeXml(remainingText)}</w:t></w:r>`);
+            }
+        }
+
+        // Main Compiler Flow
+        async function compileDocument() {
+            const compileBtn = document.getElementById('compile-btn');
+            const jsonText = document.getElementById('json-input').value.trim();
+
+            if (!jsonText) {
+                log("Error: Please paste your lesson plan JSON first.", "error");
+                return;
+            }
+
+            let data;
+            try {
+                data = JSON.parse(jsonText);
+            } catch (err) {
+                log("JSON Parsing Error: " + err.message, "error");
+                log("Make sure your input is valid JSON without trailing commas or comments.", "error");
+                return;
+            }
+
+            compileBtn.disabled = true;
+            log("Compiler started...");
+            log("Loading template and parsing JSON data...");
+
+            try {
+                // 1. Compile variables/loops using docx-templates
+                log("Rendering document template loops and fields...");
+                const renderedBuffer = await createReport({
+                    template: activeTemplateBuffer,
+                    data,
+                    cmdDelimiter: ['{', '}']
+                });
+
+                // 2. Unzip compiled docx and parse word/document.xml
+                log("Opening document file system (unzipping docx)...");
+                const zip = await JSZip.loadAsync(renderedBuffer);
+                let docXmlText = await zip.file("word/document.xml").async("string");
+
+                log("Parsing XML elements and checking structures...");
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(docXmlText, "text/xml");
+
+                // Get all w:p elements (captures top-level, cells, headers/footers in document.xml)
+                let paras = doc.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "p");
+                if (!paras || paras.length === 0) {
+                    paras = doc.getElementsByTagName("w:p");
+                }
+                const parasList = Array.from(paras || []);
+
+                log(`Formatting ${parasList.length} paragraphs (processing equations & terminology)... `);
+                let formattedCount = 0;
+                for (const pNode of parasList) {
+                    formatParagraphNode(pNode, doc);
+                }
+
+                // 3. Serialize back and zip
+                log("Rebuilding document structure (re-zipping content)...");
+                const serializedXml = new XMLSerializer().serializeToString(doc);
+                zip.file("word/document.xml", serializedXml);
+
+                const finalBlob = await zip.generateAsync({
+                    type: "blob",
+                    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                });
+
+                // 4. Download
+                log("Finalizing document files...");
+                const url = URL.createObjectURL(finalBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'output_modul_ajar.docx';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                log("Success! Compiled Word document successfully downloaded.", "success");
+            } catch (err) {
+                log("Compilation Error: " + err.message, "error");
+                console.error("Compilation detailed error:", err);
+            } finally {
+                compileBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
