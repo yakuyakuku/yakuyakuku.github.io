@@ -601,6 +601,11 @@
                     }
                 }
 
+                // Normalize n_sqrt to sqrt before parsing
+                if (/^\d*_?sqrt\(/.test(s)) {
+                    s = s.replace(/^\d*_?sqrt\(/, 'sqrt(');
+                }
+
                 // Square Root
                 if (s.startsWith('sqrt(') && s.endsWith(')')) {
                     const radicand = s.substring(5, s.length - 1);
@@ -638,6 +643,10 @@
             }
 
             if (!text.trim()) return;
+
+            // Sanitize: strip backticks and normalize n_sqrt to sqrt
+            text = text.replace(/`/g, '');
+            text = text.replace(/(\d*)_sqrt\(/g, 'sqrt(');
 
             const matches = [];
             boldRegex.lastIndex = 0;

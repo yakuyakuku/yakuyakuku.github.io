@@ -77,6 +77,10 @@ class MathParser:
                 if exponent.startswith('(') and exponent.endswith(')'): exponent = exponent[1:-1]
                 return f"<m:sSup><m:e>{self.parse(base)}</m:e><m:sup>{self.parse(exponent)}</m:sup></m:sSup>"
 
+        # Normalize n_sqrt(...) to sqrt(...) before parsing
+        if re.match(r'^\d*_?sqrt\(', s):
+            s = re.sub(r'^\d*_?sqrt\(', 'sqrt(', s)
+        
         # Parse square root 'sqrt(...)' (Must start with sqrt and end with paren)
         if s.startswith('sqrt(') and s.endswith(')'):
             radicand = s[5:-1]
@@ -106,6 +110,10 @@ def format_text_in_paragraph(paragraph, english_regex, math_regex, bold_regex):
     text = paragraph.text
     if not text.strip():
         return
+    
+    # Sanitize: strip backticks and normalize n_sqrt to sqrt
+    text = text.replace('`', '')
+    text = re.sub(r'(\d*)_sqrt\(', 'sqrt(', text)
         
     matches = []
     
