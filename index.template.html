@@ -798,6 +798,62 @@
                     formatParagraphNode(pNode, doc);
                 }
 
+                // 2b. Format Pertemuan headings: yellow highlight, bold, underline, spacing
+                log("Applying Pertemuan heading styles (yellow highlight, bold, underline)...");
+                const pertemuanRegex = /^Pertemuan\s+\d+/;
+                for (const pNode of parasList) {
+                    // Get text content of this paragraph
+                    const tNodes = pNode.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "t");
+                    let pText = "";
+                    for (let i = 0; i < tNodes.length; i++) {
+                        pText += tNodes[i].textContent;
+                    }
+
+                    if (pertemuanRegex.test(pText.trim())) {
+                        // Add spacing before (18pt = 360 twips)
+                        let pPr = pNode.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "pPr")[0];
+                        if (!pPr) {
+                            pPr = doc.createElementNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "w:pPr");
+                            pNode.insertBefore(pPr, pNode.firstChild);
+                        }
+                        let spacing = pPr.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "spacing")[0];
+                        if (!spacing) {
+                            spacing = doc.createElementNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "w:spacing");
+                            pPr.appendChild(spacing);
+                        }
+                        spacing.setAttribute("w:before", "360");
+
+                        // Apply bold, underline, yellow highlight to all runs
+                        const runs = pNode.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "r");
+                        for (let i = 0; i < runs.length; i++) {
+                            const run = runs[i];
+                            let rPr = run.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "rPr")[0];
+                            if (!rPr) {
+                                rPr = doc.createElementNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "w:rPr");
+                                run.insertBefore(rPr, run.firstChild);
+                            }
+                            // Bold
+                            if (!rPr.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "b")[0]) {
+                                const b = doc.createElementNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "w:b");
+                                rPr.appendChild(b);
+                            }
+                            // Underline
+                            if (!rPr.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "u")[0]) {
+                                const u = doc.createElementNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "w:u");
+                                u.setAttribute("w:val", "single");
+                                rPr.appendChild(u);
+                            }
+                            // Yellow Highlight
+                            if (!rPr.getElementsByTagNameNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "highlight")[0]) {
+                                const highlight = doc.createElementNS("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "w:highlight");
+                                highlight.setAttribute("w:val", "yellow");
+                                rPr.appendChild(highlight);
+                            }
+                        }
+                        log(`  → Styled heading: "${pText.trim()}"`, "success");
+                    }
+                }
+
                 // 3. Serialize back and zip
                 log("Rebuilding document structure (re-zipping content)...");
                 const serializedXml = new XMLSerializer().serializeToString(doc);
