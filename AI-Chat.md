@@ -35,7 +35,22 @@ Write standard English academic jargon using formal English spelling. Do not wra
 
 ---
 
-## 3. Strict Array Sizes
+## 3. Global Metadata Fields
+
+Provide these module-wide values at the JSON root level:
+*   **`judul_tema_subtopik`** (string): The topic of the lesson plan (e.g., `"Quadratic Functions and Equations"`).
+*   **`latar_belakang_pembelajaran`** (array of strings): Contextual background and prerequisite skills of the class.
+*   **`capaian_pembelajaran`** (string): The standard competency learning goal statement (Capaian Pembelajaran / CP).
+*   **`tujuan_pembelajaran_umum`** (array of strings): List of overall objectives (Tujuan Pembelajaran / TP) for the module.
+*   **`enduring_understanding`** (string): Deep conceptual takeaways that remain with students (Pemahaman Bermakna).
+*   **`lintas_disiplin_ilmu`** (string): Contextual connections to sciences (physics), computing/engineering, and economics.
+*   **`tanggal_generasi`** (string, optional): Compilation date in `"dd MMM yyyy"` format (e.g., `"28 Aug 2025"`). If omitted or empty, the compiler will automatically use the current generation date.
+*   **`integrity_checked`**, **`mindful_checked`**, **`progressive_checked`** (boolean): True/false flags indicating which school values are checked.
+*   **`sasaran_profil_sekolah`** (array of objects): Detailed indicators list for the active school values. Each object must have a `nilai` string and an `indikator` array of strings.
+
+---
+
+## 4. Strict Array Sizes
 
 *   **`aktivitas_pembelajaran`**: Must contain **exactly 6 items** representing the lesson steps:
     1.  `milestone`: `"AWAL"`, `tahapan_sintaks`: `"Stimulasi dan Pernyataan Masalah"` (or equivalent introduction syntax)
@@ -52,7 +67,7 @@ Write standard English academic jargon using formal English spelling. Do not wra
 
 ---
 
-## 4. JSON Schema Template (Do Not Copy Content)
+## 5. JSON Schema Template (Do Not Copy Content)
 
 > [!WARNING]
 > The JSON template below is purely a **structural example**. You must **NOT** output the exact algebra content below. Instead, generate fresh, customized content matching the user's specific topics, notes, or images while retaining this exact JSON keys and array sizes.
@@ -63,6 +78,7 @@ Follow this exact structural layout for your JSON response:
 ```json
 {
   "judul_tema_subtopik": "Quadratic Functions and Equations",
+  "tanggal_generasi": "28 Aug 2025",
   "latar_belakang_pembelajaran": [
     "Siswa biasanya duduk dalam grup 4-5 orang secara konsisten.",
     "Kelas sudah diperkenalkan dengan konsep pemfaktoran aljabar linear dan operasi bentuk akar pada jenjang sebelumnya.",

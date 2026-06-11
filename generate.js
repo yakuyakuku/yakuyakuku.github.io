@@ -37,6 +37,12 @@ async function main() {
         const template = fs.readFileSync(templatePath);
         const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
+        if (!data.tanggal_generasi) {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const d = new Date();
+            data.tanggal_generasi = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
         console.log('Rendering document...');
         const buffer = await createReport({
             template,

@@ -721,6 +721,12 @@
                 return;
             }
 
+            if (!data.tanggal_generasi) {
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const d = new Date();
+                data.tanggal_generasi = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+            }
+
             compileBtn.disabled = true;
             log("Compiler started...");
             log("Loading template and parsing JSON data...");

@@ -35,10 +35,11 @@ def run_conversion():
             p.text = "Pertemuan {$p.pertemuan_number} – {$p.model_pembelajaran}"
             break
 
-    # 4. Add the outer loop closing tag before Pontianak
+    # 4. Add the outer loop closing tag before Pontianak and replace with dynamic date variable
     for p in doc.paragraphs:
         if p.text.strip().startswith("Pontianak"):
             p.insert_paragraph_before("{END-FOR p}")
+            p.text = "Pontianak, {tanggal_generasi}"
             break
 
     # 5. Table 0 replacement (General Info)
@@ -155,6 +156,23 @@ def run_conversion():
         r_lbl = p_lamp.add_run(f"{{$p.asesmen[{i}].lampiran.includes(':') ? $p.asesmen[{i}].lampiran.split(':')[0] + ':' : ''}}")
         r_lbl.bold = True
         r_desc = p_lamp.add_run(f"{{$p.asesmen[{i}].lampiran.includes(':') ? $p.asesmen[{i}].lampiran.substring($p.asesmen[{i}].lampiran.indexOf(':') + 1) : $p.asesmen[{i}].lampiran}}")
+
+    # 11. Delete all elements after the LAMPIRAN paragraph, leaving only the header and a page break
+    lampiran_element = None
+    for child in list(body):
+        if child.tag.split('}')[-1] == 'p':
+            p = docx.text.paragraph.Paragraph(child, doc)
+            if p.text.strip() == "LAMPIRAN":
+                lampiran_element = child
+                break
+                
+    if lampiran_element is not None:
+        siblings = list(body)
+        idx_lampiran = siblings.index(lampiran_element)
+        for element in siblings[idx_lampiran + 1:]:
+            body.remove(element)
+        # Add a page break to create an empty page below LAMPIRAN
+        doc.add_page_break()
 
     doc.save('template.docx')
     print("Successfully generated template.docx from Test.docx with comprehensive dynamic placeholders!")
