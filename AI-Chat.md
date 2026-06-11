@@ -62,131 +62,172 @@ Follow this exact structural layout for your JSON response:
 
 ```json
 {
+  "judul_tema_subtopik": "Quadratic Functions and Equations",
+  "latar_belakang_pembelajaran": [
+    "Siswa biasanya duduk dalam grup 4-5 orang secara konsisten.",
+    "Kelas sudah diperkenalkan dengan konsep pemfaktoran aljabar linear dan operasi bentuk akar pada jenjang sebelumnya.",
+    "Siswa sudah mengerti dasar koordinat Kartesius untuk pemetaan titik fungsi dasar."
+  ],
+  "capaian_pembelajaran": "Peserta didik mampu menyusun, memodelkan, menggambar, dan menganalisis fenomena yang berkaitan dengan sifat-sifat serta bentuk persamaan kuadrat dan fungsi kuadrat, serta mengaplikasikan karakteristik diskriminan dalam konteks pemecahan masalah matematika lanjutan.",
+  "tujuan_pembelajaran_umum": [
+    "1. Menyelesaikan persamaan kuadrat dengan menggunakan metode faktorisasi, rumus kuadrat (quadratic formula), dan melengkapkan kuadrat sempurna (completing the square).",
+    "2. Menganalisis karakteristik, pergeseran, dan menggambar grafik fungsi kuadrat.",
+    "3. Menentukan dan menerapkan kegunaan nilai diskriminan dalam mengidentifikasi sifat akar real atau akar kembar (repeated roots).",
+    "4. Menyelesaikan persamaan yang dapat diubah ke bentuk struktur kuadrat melibatkan fungsi dari variabel yang belum diketahui (function of the unknown)."
+  ],
+  "enduring_understanding": "Persamaan dan fungsi kuadrat bukan sekadar grafik melengkung atau hitungan hafalan akar, melainkan alat matematika esensial untuk memodelkan lintasan simetris, mengoptimalkan nilai maksimum/minimum, serta fondasi transisi menuju aljabar tingkat tinggi melalui manipulasi variabel tersembunyi.",
+  "lintas_disiplin_ilmu": "Analisis kuadratik memiliki keterkaitan erat dengan tiga disiplin ilmu utama. Pertama, dalam Sains (Fisika), ia sangat fundamental untuk memodelkan gerak parabola (kinematika), menghitung waktu puncak, maupun jangkauan maksimum objek. Kedua, dalam Teknologi Informasi dan Rekayasa, struktur kuadrat digunakan sebagai dasar algoritma optimasi, pengolahan citra digital grafik 3D, dan pemodelan kurva lengkung desain objek. Ketiga, ia berhubungan langsung dengan Ekonomi, terutama dalam kalkulasi maksimalisasi keuntungan perusahaan atau minimalisasi biaya produksi berdasarkan fungsi biaya kuadratik.",
+  "integrity_checked": true,
+  "mindful_checked": true,
+  "progressive_checked": true,
+  "sasaran_profil_sekolah": [
+    {
+      "nilai": "Integrity",
+      "indikator": [
+        "Berani mempertanggungjawabkan hasil perhitungan, langkah kerja aljabar, serta jujur dalam melakukan asesmen mandiri tanpa memanipulasi data akar kuadrat."
+      ]
+    },
+    {
+      "nilai": "Progressive",
+      "indikator": [
+        "Mampu berpikir 'out of the box' dalam memanipulasi persamaan non-kuadrat ke dalam bentuk substitusi kuadrat variabel tak diketahui melalui eksplorasi mandiri.",
+        "Kreatif dalam menyusun sketsa grafik fungsi kuadrat berdasarkan karakteristik nilai diskriminan secara efisien di luar metode titik-titik konvensional."
+      ]
+    },
+    {
+      "nilai": "Mindful",
+      "indikator": [
+        "Mampu mengendalikan diri dan bekerja sama dengan tenang saat diskusi kelompok memecahkan sifat-sifat diskriminan yang kompleks, serta menghargai perbedaan strategi penyelesaian aljabar dari teman sejawat."
+      ]
+    }
+  ],
   "pertemuan_list": [
     {
       "pertemuan_number": 1,
       "model_pembelajaran": "Discovery Learning",
       "tujuan_pembelajaran": [
-        "1. Melakukan manipulasi aljabar dasar termasuk menjabarkan tanda kurung (expanding brackets), menyederhanakan suku sejenis (collecting like terms), dan memfaktorkan bentuk aljabar sederhana."
+        "1. Menyelesaikan persamaan kuadrat dengan menggunakan metode faktorisasi, rumus kuadrat (quadratic formula), dan melengkapkan kuadrat sempurna (completing the square)."
       ],
       "aktivitas_pembelajaran": [
         {
           "waktu_menit": 15,
           "milestone": "AWAL",
           "tahapan_sintaks": "Stimulasi dan Pernyataan Masalah",
-          "prosedur_guru": "Guru memberikan ekspresi aljabar seperti 2(x+3) - (x-4) di papan tulis...",
-          "prosedur_siswa": "Siswa mencoba menyederhanakan ekspresi aljabar tersebut...",
+          "prosedur_guru": "Guru me-review konsep pemfaktoran bentuk aljabar sederhana dan konsep akar kuadrat. Guru menampilkan masalah kontekstual berupa luas sebidang tanah berbentuk persegi panjang, misalnya: \"Sebuah lapangan memiliki luas 180 meter persegi dengan panjang 8 meter lebihnya dari lebarnya. Bagaimana kita mencari ukuran panjang dan lebarnya?\" Guru memandu siswa menyusun persamaan. Guru bertanya: \"Bagaimana cara kita mencari nilai x yang memenuhi persamaan tersebut dengan cepat?\"",
+          "prosedur_siswa": "Siswa mencoba mengamati pola persamaan, menghubungkannya dengan konsep perkalian aljabar, dan menyadari bahwa menebak-nebak angka akan memakan waktu lama, sehingga membutuhkan metode sistematis.",
           "pertanyaan_kunci": [
-            "Mengapa tanda negatif di depan kurung mengubah semua tanda di dalam kurung?"
+            "Mengapa persamaan berderajat dua (kuadrat) tidak bisa diselesaikan hanya dengan isolasi variabel biasa seperti persamaan linear?",
+            "Bagaimana peran pemfaktoran dalam menyederhanakan pencarian nilai x?"
           ],
           "muatan_inovatif": {
-            "deep_learning": "Mengaitkan konsep distributif dengan aritmetika dasar.",
-            "impactful": null,
-            "differentiation": null
+            "deep_learning": "Mengaitkan pengetahuan awal (perkalian aljabar dan luas bidang) dengan konsep baru penyelesaian persamaan kuadrat.",
+            "differentiation": null,
+            "impactful": null
           }
         },
         {
           "waktu_menit": 25,
           "milestone": "INTI",
           "tahapan_sintaks": "Pengumpulan Data (Data Collection)",
-          "prosedur_guru": "Guru menjelaskan teori perkalian binomial...",
-          "prosedur_siswa": "Siswa mencatat formula dasar ekspansi...",
+          "prosedur_guru": "Guru menjelaskan bentuk umum persamaan kuadrat. Guru mendemonstrasikan secara komparatif 3 metode utama: Faktorisasi, Melengkapkan Kuadrat Sempurna, dan Rumus Kuadrat (ABC).",
+          "prosedur_siswa": "Siswa mencatat struktur formula, lalu mencoba beberapa contoh soal secara berkelompok heterogen.",
           "pertanyaan_kunci": [
-            "Kapan sebuah bentuk aljabar dikatakan terfaktorkan secara sempurna?"
+            "Kapan metode faktorisasi paling efektif digunakan?",
+            "Mengapa kita membutuhkan metode melengkapkan kuadrat atau rumus ABC jika ada metode faktorisasi?"
           ],
           "muatan_inovatif": {
             "deep_learning": null,
-            "impactful": null,
-            "differentiation": {
-              "type": "Proses",
-              "deskripsi": "Penyediaan visualisasi luas area persegi panjang."
-            }
+            "differentiation": null,
+            "impactful": null
           }
         },
         {
           "waktu_menit": 20,
           "milestone": "INTI",
           "tahapan_sintaks": "Pengolahan Data (Data Processing)",
-          "prosedur_guru": "Guru membagikan LKPD...",
-          "prosedur_siswa": "Siswa berpasangan heterogen menyelesaikan soal...",
+          "prosedur_guru": "Guru memfasilitasi operasi pengerjaan LKPD. Guru memantau pengerjaan siswa dan memberikan scaffolding (bantuan bertahap) terutama pada manipulasi aljabar saat melengkapkan kuadrat sempurna.",
+          "prosedur_siswa": "Siswa menyelesaikan tantangan soal di dalam kelompok, misalnya menyelesaikan persamaan menggunakan ketiga metode sekaligus untuk melihat konsistensi hasilnya.",
           "pertanyaan_kunci": [
-            "Bagaimana cara memfaktorkan bentuk aljabar jika koefisien bernilai negatif?"
+            "Apa yang terjadi pada nilai di dalam akar jika persamaan tersebut tidak memiliki akar real?",
+            "Apakah ketiga metode selalu menghasilkan nilai akar-akar yang sama?"
           ],
           "muatan_inovatif": {
             "deep_learning": null,
-            "impactful": null,
-            "differentiation": null
+            "differentiation": null,
+            "impactful": null
           }
         },
         {
           "waktu_menit": 15,
           "milestone": "INTI",
           "tahapan_sintaks": "Pembuktian (Verification)",
-          "prosedur_guru": "Guru memandu verifikasi hasil dengan mensubstitusi nilai x acak...",
-          "prosedur_siswa": "Siswa membandingkan pengerjaan dan memverifikasi kesamaan hasil...",
+          "prosedur_guru": "Guru meminta perwakilan kelompok mempresentasikan hasil pengerjaannya di papan tulis dan memverifikasi kebenaran nilai akar dengan cara mensubstitusikan kembali nilai x yang didapat ke dalam persamaan awal.",
+          "prosedur_siswa": "Siswa mempresentasikan hasil kerja kelompok, saling memberikan umpan balik, dan melakukan koreksi mandiri jika terjadi kesalahan tanda positif/negatif.",
           "pertanyaan_kunci": [
-            "Mengapa substitusi nilai angka membuktikan kebenaran manipulasi aljabar kita?"
+            "Bagaimana kita tahu bahwa nilai x yang kita temukan sudah benar?",
+            "Kesalahan apa yang paling sering terjadi saat menerapkan rumus ABC?"
           ],
           "muatan_inovatif": {
             "deep_learning": null,
-            "impactful": null,
-            "differentiation": null
+            "differentiation": null,
+            "impactful": null
           }
         },
         {
           "waktu_menit": 10,
           "milestone": "AKHIR",
           "tahapan_sintaks": "Menarik Kesimpulan",
-          "prosedur_guru": "Guru membimbing siswa merangkum perbedaan esensial...",
-          "prosedur_siswa": "Siswa menyimpulkan alur pengerjaan...",
+          "prosedur_guru": "Guru membimbing siswa merangkum kelebihan dan kekurangan masing-masing metode serta menentukan kapan waktu terbaik menggunakan tiap-tiap metode dalam kehidupan nyata/sains.",
+          "prosedur_siswa": "Siswa menyimpulkan sintaks pengerjaan ketiga metode dan mencatat poin krusial dari masing-masing formula.",
           "pertanyaan_kunci": [
-            "Bagaimana membedakan kapan harus menjabarkan dan kapan harus memfaktorkan?"
+            "Mengapa rumus kuadrat (ABC) disebut sebagai metode pamungkas/universal dalam persamaan kuadrat?"
           ],
           "muatan_inovatif": {
-            "deep_learning": "Melatih metakognisi siswa.",
-            "impactful": null,
-            "differentiation": null
+            "deep_learning": null,
+            "differentiation": null,
+            "impactful": null
           }
         },
         {
           "waktu_menit": 5,
           "milestone": "AKHIR",
           "tahapan_sintaks": "Refleksi",
-          "prosedur_guru": "Guru membagikan lembar exit ticket...",
-          "prosedur_siswa": "Siswa menyelesaikan soal exit ticket secara mandiri...",
+          "prosedur_guru": "Guru memberikan pertanyaan refleksi singkat dan membagikan lembar exit ticket.",
+          "prosedur_siswa": "Siswa menjawab pertanyaan refleksi secara mandiri dan jujur.",
           "pertanyaan_kunci": [
-            "Seberapa percaya diri kamu dalam melakukan manipulasi aljabar?"
+            "Metode mana yang paling kamu kuasai hari ini?",
+            "Bagian mana yang menurutmu masih membingungkan dan butuh latihan tambahan?"
           ],
           "muatan_inovatif": {
             "deep_learning": null,
-            "impactful": "Membangun kejujuran (Integrity) siswa.",
             "differentiation": {
               "type": "Produk",
-              "deskripsi": "Siswa berkemampuan tinggi membuat soal pemfaktoran sendiri."
-            }
+              "deskripsi": "Jawaban bisa berupa tulisan singkat atau contoh soal buatan siswa."
+            },
+            "impactful": null
           }
         }
       ],
       "asesmen": [
         {
           "jenis": "Diagnostik",
-          "bentuk": "Pre-test 5 soal isian singkat.",
-          "lampiran": "Lembar Soal Diagnostik: Mengukur kemampuan prasyarat bilangan bulat."
+          "bentuk": "Pre-test 5 soal pilihan ganda (PG) dan isian singkat.",
+          "lampiran": "Lembar Soal Diagnostik: Mengukur prasyarat: konsep operasi aljabar dasar (distributif dan perkalian binomial), penarikan akar kuadrat, serta kemampuan menyederhanakan bentuk pecahan."
         },
         {
           "jenis": "Afektif",
-          "bentuk": "Lembar Observasi Keaktifan.",
-          "lampiran": "Rubrik Observasi Guru: Menilai sikap kolaborasi dan kejujuran (Integrity)."
+          "bentuk": "Observasi Keterlibatan Siswa dan Nilai IMPACTFUL (Integritas & Progressive).",
+          "lampiran": "Lembar Observasi Guru: Menilai sikap kolaborasi, kejujuran (Integrity) saat melakukan perhitungan mandiri tanpa aplikasi penjawab soal otomatis, ketenangan saat berdiskusi (Mindful), serta kreativitas (Progressive) dalam memilih metode tercepat untuk menyelesaikan persamaan kuadrat tertentu (Menggunakan skala Rubrik 1-4)."
         },
         {
           "jenis": "Formatif (Proses)",
-          "bentuk": "Laporan LKPD pengerjaan latihan aljabar.",
-          "lampiran": "Kunci Jawaban LKPD: Menilai ketepatan langkah penjabaran."
+          "bentuk": "Kinerja Kelompok/Individu.",
+          "lampiran": "Lembar Penilaian Kinerja (LKBA): Penilaian terhadap Flowchart atau Algoritma langkah demi langkah yang dibuat siswa untuk membandingkan alur kerja metode Faktorisasi vs Melengkapkan Kuadrat vs Rumus ABC pada satu soal yang sama."
         },
         {
           "jenis": "Formatif (Refleksi)",
-          "bentuk": "Exit ticket di akhir pertemuan.",
-          "lampiran": "Jurnal Refleksi Siswa: Menganalisis tingkat pemahaman konsep."
+          "bentuk": "Jurnal Refleksi Akhir Pertemuan.",
+          "lampiran": "Jurnal Refleksi Siswa: Catatan pribadi siswa mengenai hambatan yang dihadapi (misalnya saat menghadapi nilai diskriminan negatif atau pecahan), sejauh mana Computational Thinking (Algoritma/Dekomposisi langkah) membantu proses hitung, dan area yang perlu ditingkatkan."
         }
       ]
     }
